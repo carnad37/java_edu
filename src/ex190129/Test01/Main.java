@@ -4,7 +4,7 @@ public class Main {
 
 	public static void main(String[] args)
 	{
-		Caculator cal = new Caculator();
+		CalculatorSub cal = new CalculatorSub();
 		
 		int res = 0, x= 0, y=0;
 		double divRes = 0;
