@@ -18,7 +18,7 @@ public class Test07 {
 		int num = sc.nextInt();
 		int i = 1, sum = 0, count = 0;
 		//sum값이 num를 넘을때까지 합산을 반복.
-		while(sum < num)
+		while(sum <= num)
 		{
 			sum = sum+i;
 			//System.out.println("i:"+i);

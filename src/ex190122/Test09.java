@@ -35,9 +35,9 @@ public class Test09 {
 			for(j=min; j<(max+1);j++)
 			{
 				mul = i*j;
-				System.out.println(i+" * "+j+" = "+mul);
+				System.out.print(j+" * "+i+" = "+mul+"\t");
 			}
-				
+		System.out.println("");				
 		}
 		
 		
