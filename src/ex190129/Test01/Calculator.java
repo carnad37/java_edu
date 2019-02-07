@@ -1,6 +1,6 @@
 package ex190129.Test01;
 
-public class Caculator {
+public class Calculator {
 	
 	int res = 0;
 	double divRes = 0;

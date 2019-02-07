@@ -1,7 +1,5 @@
 package work.repeat;
-
 import java.util.Scanner;
-
 public class Work06 {
 
 	public static void main(String[] args) {
@@ -35,5 +33,4 @@ public class Work06 {
 			System.out.println("");
 		}
 	}
-	
 }
