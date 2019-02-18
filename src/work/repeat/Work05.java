@@ -15,19 +15,33 @@ public class Work05 {
 		int num = sc.nextInt();
 		String space = " ";
 		String star = "*";
+		int endSpace = (num*2)-1;
 		
 		for(int i = 0; i<num; i++)
 		{
 			//스페이스문
-			for(int j=0;j<i;j++)
+//			for(int j=0;j<i;j++)
+//			{
+//				System.out.print(space);
+//			}
+//			for(int k=(2*(num-i))-1;k>0;k--)
+//			{
+//				System.out.print(star);
+//			}
+//			System.out.println("");
+			for(int j=0;j<endSpace;j++)
 			{
-				System.out.print(space);
-			}
-			for(int k=(2*(num-i))-1;k>0;k--)
-			{
-				System.out.print(star);
+				if((i>j)||(endSpace-i)<=j)
+				{
+					System.out.print(space);
+				}
+				else
+				{
+					System.out.print(star);
+				}
 			}
 			System.out.println("");
+			
 		}
 		
 		

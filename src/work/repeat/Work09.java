@@ -9,6 +9,7 @@ public class Work09 {
 		Scanner sc = new Scanner(System.in);
 		String star = "*";
 		
+		
 		System.out.print("정수를 입력해주세요: ");
 		int num = sc.nextInt();
 		int i = 0;
@@ -31,6 +32,22 @@ public class Work09 {
 			}
 			System.out.println("");
 		}
+		
+//		for(i=0;i<(num*2)-1;i++)
+//		{
+//			for(j=0;j<num;j++)
+//			{
+//				if(i>num)
+//				{
+//					System.out.print(star);
+//				}
+//				else
+//				{
+//					System.out.println(space);
+//				}
+//			}
+//		}
+		
 	}
 	
 }

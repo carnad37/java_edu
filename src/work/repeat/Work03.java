@@ -12,24 +12,46 @@ public class Work03 {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("정수를 입력해주세요: ");
 		int num = sc.nextInt();
-		int i = 0, j = 0;
+		int i = 0, j = 0, k = 0;
 		String star = "*";
 		//위의 감소하는 별
-		for(j=num;j>0;j--)
+//		for(j=num;j>0;j--)
+//		{
+//			for(i=0;i<j;i++)
+//			{
+//				System.out.print(star);
+//			}
+//			System.out.println("");
+//		}
+//		for(j=0;j<num;j++)
+//		{
+//			for(i=0;i<j+1;i++)
+//			{
+//				System.out.print(star);
+//			}
+//			System.out.println("");
+//		}
+		
+		for(j=num*2;j>1;j--)
 		{
-			for(i=0;i<j;i++)
+			
+			if(j>num)
 			{
-				System.out.print(star);
+				for(i=j-num;i>0;i--)
+				{
+					System.out.print(star);
+				}
+				System.out.println("");
 			}
-			System.out.println("");
-		}
-		for(j=0;j<num;j++)
-		{
-			for(i=0;i<j+1;i++)
+			else
 			{
-				System.out.print(star);
+				for(i=0;i<(num+2)-j;i++)
+				{
+//					System.out.print(j);
+					System.out.print(star);
+				}
+				System.out.println("");
 			}
-			System.out.println("");
 		}
 	
 	}

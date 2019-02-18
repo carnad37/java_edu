@@ -19,15 +19,28 @@ public class Work04 {
 			//인수는 i=0이 주어짐
 			//내부에서 인수 k를 만들 필요가 있음.
 						//먼저 스페이스문. 스페이스는 0->1->2순으로 생성됨.
-			for(int j = 0; j<i; j++)	//첫시행은 건너뛰어짐
+//			for(int j = 0; j<i; j++)	//첫시행은 건너뛰어짐
+//			{
+//				System.out.print(space);
+//			}
+//			for(int k = num-i;k>0;k--)
+//			{
+//				System.out.print(star);
+//			}
+//			System.out.println("");
+			for(int j=0;j<num;j++)
 			{
-				System.out.print(space);
-			}
-			for(int k = num-i;k>0;k--)
-			{
-				System.out.print(star);
+				if(i-j>0)
+				{
+					System.out.print(space);
+				}
+				else
+				{
+					System.out.print(star);
+				}
 			}
 			System.out.println("");
+			
 		}
 	}
 
