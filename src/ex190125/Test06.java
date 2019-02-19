@@ -36,30 +36,33 @@ public class Test06 {
 				//100미만의 수중에서 가장 큰수 찾기.
 				if(i>0)//실제식
 				{
-					if(iArr[i]>iArr[i-1])
+					if(iArr[i]>max)
 					{
 						max = iArr[i];
 					}
+					
 				}
 				else
 				{
 					max = iArr[i];
 				}
+
 			}
 			else
 			{
 				//100이상의 수중에서 가장 작은 수 찾기.
 				if(i>0)//실제식
 				{
-					if(iArr[i-1]>iArr[i])
+					if(min>iArr[i])
 					{
 						min = iArr[i];
 					}
-					else
-					{
-						min = iArr[i];
-					}
-				}				
+
+				}
+				else
+				{
+					min = iArr[i];
+				}
 			}			
 		}
 		//수 출력
