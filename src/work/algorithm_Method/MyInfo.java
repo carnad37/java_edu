@@ -1,4 +1,4 @@
-package work.algorithm_02;
+package work.algorithm_Method;
 
 public class MyInfo {
 	

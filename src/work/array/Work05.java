@@ -2,12 +2,12 @@ package work.array;
 
 import java.util.Scanner;
 
-public class Work5 {
+public class Work05 {
 
 	public static void main(String[] args) {
 		
 		//홀수번째 합, 짝수번째 합.
-		Work5 w5 = new Work5();
+		Work05 w5 = new Work05();
 		Scanner sc = new Scanner(System.in);
 		int[] num = new int[10];
 		for(int i=0;i<10;i++)

@@ -2,11 +2,11 @@ package work.array;
 import ex190122.Uppernum;
 import java.util.Scanner;
 
-public class Work7 {
+public class Work07 {
 	
 	public static void main(String[] args) {
 		
-		Work7 w7 = new Work7();
+		Work07 w7 = new Work07();
 		
 		//6명의 몸무게 입력.
 		//평균출력. 반올림.

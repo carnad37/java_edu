@@ -2,12 +2,12 @@ package work.array;
 
 import java.util.Scanner;
 
-public class Work2 {
+public class Work02 {
 
 	public static void main(String[] args) {
 		
 		
-		Work2 w2 = new Work2();
+		Work02 w2 = new Work02();
 		//10개의 정수를 입력받아 배열에 저장.
 		//짝수값 - 합, 홀수값 -평균
 		//구해라

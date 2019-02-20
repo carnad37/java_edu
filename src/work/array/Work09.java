@@ -2,7 +2,7 @@ package work.array;
 
 import java.util.Scanner;
 
-public class Work9 {
+public class Work09 {
 
 	public static void main(String[] args) {
 		

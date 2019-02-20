@@ -1,4 +1,4 @@
-package work.repeat;
+	package work.repeat;
 
 public class Work20 {
 

@@ -2,11 +2,11 @@ package work.array;
 
 import java.util.Scanner;
 
-public class Work4 {
+public class Work04 {
 	
 	public static void main(String[] args) {
 		
-		Work4 w4 = new Work4();
+		Work04 w4 = new Work04();
 		
 		//5개를 입력받고
 		//첫번째 세번째 다섯번째 입력받은 정수의 합을 출력

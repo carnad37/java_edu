@@ -2,12 +2,12 @@ package work.array;
 
 import java.util.Scanner;
 
-public class Work8 {
+public class Work08 {
 
 	public static void main(String[] args) {
 		
 		//문자를 입력받아 위치 서치.
-		Work8 w8 = new Work8();
+		Work08 w8 = new Work08();
 		Scanner scan  = new Scanner(System.in);
 		
 		String[] str = {"J","U","N","G","O","L"};
