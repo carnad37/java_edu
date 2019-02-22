@@ -48,15 +48,23 @@ public class Work26 {
 		{
 			calNumber = space;
 		}
-		int count=0;
+		int count=0, result=0, nextUp=0;
 		for(int i=1;i<calNumber+1;i++)
 		{
-			int result = charArray[space-i]+charArray[charArray.length-i]-96;
-			System.out.println(result);
+			
+			result = charArray[space-i]+charArray[charArray.length-i]-96;
+			result += nextUp;
 			if(result>=10)
 			{
 				count++;
+				nextUp = 1;
+				
 			}
+			else
+			{
+				nextUp = 0;
+			}
+			
 		}
 		if(count>0)
 		{
