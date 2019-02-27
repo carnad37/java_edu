@@ -24,32 +24,60 @@ public class Work32 {
 		int studentNumber = scan.nextInt();
 		int[] math = new int[studentNumber];
 		int[] info = new int[studentNumber];
+		String setData=scan.nextLine();
 		for(int i=0;i<studentNumber;i++)
 		{
+			System.out.print("점수를 입력해주세요(수학점수 정보점수) : ");
+			setData = scan.nextLine();
+			w32.setArrayData(setData, math,info, i);
+		}
+		for(int i=0;i<studentNumber-1;i++)
+		{
+			w32.arrayToScoreRating(math, info,i);
 
 		}
-		
-		w32.arrayToScoreRating(math, info);
 		w32.printScoreArray(math, info);
 
-
+		
 		
 	}
 	
-	public void arrayToScoreRating(int[] math,int[] info)
+	public void setArrayData(String inputData, int[] math,int[] info,int i)
+	{
+		int spacePosition = inputData.indexOf(" ");
+		String check=null,mathScore="",infoScore="";
+		for(int j=0;j<inputData.length();j++)
+		{
+			if(j<spacePosition)
+			{
+				check = String.valueOf(inputData.charAt(j));
+				mathScore += check;
+			}
+			if(j>spacePosition)
+			{
+				check = String.valueOf(inputData.charAt(j));
+				infoScore += check;
+			}
+		}
+		math[i]=Integer.parseInt(mathScore);
+		info[i]=Integer.parseInt(infoScore);
+		
+	}
+	
+	public void arrayToScoreRating(int[] math,int[] info,int k)
 	{
 		//비교하고 바꿔주는 메소드 호출
-		for(int i=0;i<math.length-1;i++)
+		for(int i=0;i<math.length-1-k;i++)
 		{
 			if(math[i]==math[i+1])
 			{
-				if(info[i]>info[i+1])
+				if(info[i]<info[i+1])
 				{
 					setChangeIndex(math,i);
 					setChangeIndex(info,i);
 				}
 			}
-			else if(math[i]>math[i+1])
+			else if(math[i]<math[i+1])
 			{
 				setChangeIndex(math,i);
 				setChangeIndex(info,i);
@@ -69,9 +97,10 @@ public class Work32 {
 	
 	public static void setChangeIndex(int[] array, int index)
 	{
+		System.out.println(index+"에서 교차발생");
 		int value = array[index+1];
 		array[index+1] = array[index];
-		array[index] = value;	
+		array[index] = value;
 	}
 
 }
