@@ -24,34 +24,53 @@ public class Work28 {
 		int sNum = scan.nextInt();
 		scan.close();
 		int sum = 0;
-		for(int i=1;i<sNum;i++)
+		int[] numArray = new int[sNum];
+		for(int i=0;i<sNum;i++)
 		{
-			boolean result = w28.checkGenerator(i);
-			if(!result)
+			numArray[i]=i+1;
+		}
+		for(int i=0;i<sNum;i++)
+		{
+			int res = w28.calGenerator(i+1);
+			if(res<=sNum&&numArray[res-1]!=0)
 			{
-				sum+=i;
+				numArray[res-1]=0;
 			}
 		}
+		for(int i=0;i<sNum;i++)
+		{
+			if(numArray[i]!=0)
+			{
+				sum+=numArray[i];
+			}
+		}
+		
+//		for(int i=1;i<sNum;i++)
+//		{
+//			boolean result = w28.checkGenerator(i);
+//			if(!result)
+//			{
+//				sum+=i;
+//			}
+//		}
 		System.out.println(sum);
 		
 	}
+		
 	
-	
-	
-	
-	public boolean checkGenerator(int target)
-	{
-		boolean result = false;
-		for(int i=1;i<target;i++)
-		{
-			if(calGenerator(i)==target)
-			{
-				result = true;
-				break;
-			}
-		}
-		return result;
-	}
+//	public boolean checkGenerator(int target)
+//	{
+//		boolean result = false;
+//		for(int i=1;i<target;i++)
+//		{
+//			if(calGenerator(i)==target)
+//			{
+//				result = true;
+//				break;
+//			}
+//		}
+//		return result;
+//	}
 	
 	public int calGenerator(int target)
 	{
