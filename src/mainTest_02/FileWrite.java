@@ -11,8 +11,8 @@ import java.io.IOException;
 public class FileWrite {
 	
 	final private String WRITE_FATH;
-	private File contact = null;
-	private BufferedWriter bwPhoneList = null;
+	private File writeList = null;
+	private BufferedWriter bwWriteList = null;
 	
 	FileWrite(String writefath)
 	{
@@ -22,13 +22,13 @@ public class FileWrite {
 	{
 		try
 		{
-			contact = new File(WRITE_FATH);
-			bwPhoneList = new BufferedWriter(new FileWriter(contact));
+			writeList = new File(WRITE_FATH);
+			bwWriteList = new BufferedWriter(new FileWriter(writeList));
 			
 			for(String value : list)
 			{
-				bwPhoneList.write(value);
-				bwPhoneList.newLine();
+				bwWriteList.write(value);
+				bwWriteList.newLine();
 			}
 			
 			
@@ -43,13 +43,16 @@ public class FileWrite {
 		}
 		finally
 		{
-			try
+			if(bwWriteList!=null)
 			{
-				bwPhoneList.close();
-			}
-			catch(IOException e)
-			{
-				System.out.println("대상(파일)을 찾을 수가 없습니다.");
+				try
+				{
+					bwWriteList.close();
+				}
+				catch(IOException e)
+				{
+					System.out.println("대상(파일)을 찾을 수가 없습니다.");
+				}
 			}
 		}	
 	}
