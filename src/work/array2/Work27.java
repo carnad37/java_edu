@@ -9,6 +9,7 @@ public class Work27 {
 		Scanner scan = new Scanner(System.in);
 		System.out.print("숫자를 입력해주세요 : ");
 		int number = scan.nextInt();
+		scan.close();
 		
 	}
 	public void setFourNumber(int number)
