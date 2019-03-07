@@ -10,25 +10,21 @@ import java.io.IOException;
 
 public class FileWrite {
 	
-	final private String WRITE_FATH;
-	private File contact = null;
-	private BufferedWriter bwPhoneList = null;
 	
-	FileWrite(String writefath)
+	public void writeSystem(List<String> list, String writeFath)
 	{
-		this.WRITE_FATH = writefath;
-	}
-	public void writeSystem(List<String> list)
-	{
+		File writeFile = null;
+		BufferedWriter bWriteFile = null;
+
 		try
 		{
-			contact = new File(WRITE_FATH);
-			bwPhoneList = new BufferedWriter(new FileWriter(contact));
+			writeFile = new File(writeFath);
+			bWriteFile = new BufferedWriter(new FileWriter(writeFile));
 			
 			for(String value : list)
 			{
-				bwPhoneList.write(value);
-				bwPhoneList.newLine();
+				bWriteFile.write(value);
+				bWriteFile.newLine();
 			}
 			
 			
@@ -45,7 +41,7 @@ public class FileWrite {
 		{
 			try
 			{
-				bwPhoneList.close();
+				if(bWriteFile!=null)bWriteFile.close();
 			}
 			catch(IOException e)
 			{

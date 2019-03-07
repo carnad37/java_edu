@@ -10,25 +10,21 @@ import java.io.IOException;
 
 public class FileWrite {
 	
-	final private String WRITE_FATH;
-	private File writeList = null;
-	private BufferedWriter bwWriteList = null;
 	
-	FileWrite(String writefath)
+	public void writeSystem(List<String> list, String writeFath)
 	{
-		this.WRITE_FATH = writefath;
-	}
-	public void writeSystem(List<String> list)
-	{
+		File writeFile = null;
+		BufferedWriter bWriteFile = null;
+
 		try
 		{
-			writeList = new File(WRITE_FATH);
-			bwWriteList = new BufferedWriter(new FileWriter(writeList));
+			writeFile = new File(writeFath);
+			bWriteFile = new BufferedWriter(new FileWriter(writeFile));
 			
 			for(String value : list)
 			{
-				bwWriteList.write(value);
-				bwWriteList.newLine();
+				bWriteFile.write(value);
+				bWriteFile.newLine();
 			}
 			
 			
@@ -43,16 +39,13 @@ public class FileWrite {
 		}
 		finally
 		{
-			if(bwWriteList!=null)
+			try
 			{
-				try
-				{
-					bwWriteList.close();
-				}
-				catch(IOException e)
-				{
-					System.out.println("대상(파일)을 찾을 수가 없습니다.");
-				}
+				if(bWriteFile!=null)bWriteFile.close();
+			}
+			catch(IOException e)
+			{
+				System.out.println("대상(파일)을 찾을 수가 없습니다.");
 			}
 		}	
 	}

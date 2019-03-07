@@ -9,27 +9,20 @@ import java.util.*;
 
 public class FileOpen
 {
-
-	final private String READ_FATH;
-	private File readList = null;
-	private BufferedReader brReadList = null;
-	private List<String> openDataList = new ArrayList<String>();
-	FileOpen(String readfath)
+	public List<String> openSystem(String readFath)
 	{
-		this.READ_FATH = readfath;
-	}
-	public void openSystem()
-	{
+		File readFile = null;
+		BufferedReader bReadFile = null;
+		List<String> readDataList = new ArrayList<String>();
 		try
 		{
-			readList = new File(READ_FATH);
-			brReadList = new BufferedReader(new FileReader(readList));
+			readFile = new File(readFath);
+			bReadFile = new BufferedReader(new FileReader(readFile));
 			String line = "";
-			while((line=brReadList.readLine())!=null)	//모든줄이 입력되면 null이 반환된다.
+			while((line=bReadFile.readLine())!=null)	//모든줄이 입력되면 null이 반환된다.
 			{
-				openDataList.add(line);
+				readDataList.add(line);
 			}
-			
 		}
 		catch(FileNotFoundException e)
 		{
@@ -41,23 +34,18 @@ public class FileOpen
 		}
 		finally
 		{
-			if(brReadList!=null)
+			try
 			{
-				try
-				{
-					brReadList.close();
-				}
-				catch(IOException e)
-				{
-					System.out.println("대상(파일)을 찾을 수가 없습니다.");
-				}
+				bReadFile.close();
 			}
-		}	
+			catch(IOException e)
+			{
+				System.out.println("대상(파일)을 찾을 수가 없습니다.");
+			}
+		}
+		return readDataList;
 	}
-	public List<String> pushList()
-	{
-		return this.openDataList;
-	}
+
 	
 	
 	
