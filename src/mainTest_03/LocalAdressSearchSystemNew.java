@@ -1,15 +1,24 @@
 package mainTest_03;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Map;
+import java.util.HashMap;
 
-public class LocalAdressSearchSystem
+public class LocalAdressSearchSystemNew
 {
 	
 	public void mainSystem(List<String> list)
 	{
-		LocalAdressValue laValue = new LocalAdressValue(list);
 		Scanner scan = new Scanner(System.in);
+		
+		List<Map<String, String>> adressDataList = new ArrayList<Map<String, String>>();
+		setLocalAdressData(adressDataList, list);
+
+		boolean exitFlag = false;
+		int dataListSize = adressDataList.size();
+		
 		System.out.println("주소 검색 시스템입니다.");
 		System.out.println("원하시는 검색 서비스를 선택해주십시오.");
 		while(true)
@@ -21,14 +30,29 @@ public class LocalAdressSearchSystem
 			System.out.println("4. 시스템 종료");
 			System.out.println("=========================================");
 			int inputNum = selectInputSystem(scan);
-			distributeSevice(laValue, inputNum, scan);
+			distributeSevice(dataListSize, inputNum, scan);
 			System.out.println("");
-			if(laValue.exitFlag)
+			if(exitFlag)
 			{
 				scan.close();
 				System.out.println("시스템을 종료합니다.");
 				break;
 			}
+		}
+	}
+	private void setLocalAdressData(List<Map<String, String>> adressDataList, List<String> list)
+	{
+		String[] nameArray = list.get(0).split(",");
+		int arrayLength = nameArray.length;
+		for(int i=1;i<list.size();i++)
+		{
+			Map<String,String> adressData = new HashMap<String,String>();
+			String[] targetArray = list.get(i).split(",");
+			for(int j=0;j<arrayLength;j++)
+			{
+				adressData.put(nameArray[i],targetArray[i]);
+			}
+			adressDataList.add(adressData);
 		}
 	}
 	
@@ -60,31 +84,31 @@ public class LocalAdressSearchSystem
 		return selectNum;		
 	}
 	
-	private void distributeSevice(LocalAdressValue laValue, int selectNum, Scanner scan)
+	private void distributeSevice(List<Map<String, String>> adressDataList, int selectNum, Scanner scan)
 	{
 		switch(selectNum)
 		{
 		case 1:
-			roadNameSearch(laValue, scan);
+			roadNameSearch(dataListSize, scan);
 			break;
 		case 2:
-			localNumberSearch(laValue, scan);
+			localNumberSearch(dataListSize, scan);
 			break;
 		case 3:
-			postNumberSearch(laValue, scan);
+			postNumberSearch(dataListSize, scan);
 			break;
 		case 4: laValue.exitFlag = true;
 		}
 	}
 	
-	private void roadNameSearch(LocalAdressValue laValue, Scanner scan)
+	private void roadNameSearch(int dataListSize, Scanner scan)
 	{
 		while(true)
 		{
 			boolean zeroData = true;
 			System.out.print("도로명을 입력해주세요 : ");
 			String roadName = scan.nextLine();
-			for(int i=1;i<laValue.dataLineLength;i++)
+			for(int i=0;i<dataListSize;i++)
 			{
 				String checker = laValue.adressData[i][3];
 				if(roadName.equals(checker))
@@ -108,7 +132,7 @@ public class LocalAdressSearchSystem
 		}
 	}
 	
-	private void localNumberSearch(LocalAdressValue laValue, Scanner scan)
+	private void localNumberSearch(int dataListSize, Scanner scan)
 	{
 		while(true)
 		{
@@ -140,7 +164,7 @@ public class LocalAdressSearchSystem
 
 	}
 	
-	public void postNumberSearch(LocalAdressValue laValue, Scanner scan)
+	public void postNumberSearch(int dataListSize, Scanner scan)
 	{
 		while(true)
 		{

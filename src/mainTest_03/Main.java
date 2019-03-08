@@ -14,9 +14,10 @@ public class Main {
 		
 		String sourceFolder = "D:\\hhs\\javaSourceData\\";
 		String read = "cc_addr.csv";
-		FileOpen fileopen = new FileOpen();
+		String fullpath = sourceFolder+read;
 		
-		List<String> listData = fileopen.openSystem(sourceFolder+read);
+		FileOpen fileopen = new FileOpen();
+		List<String> listData = fileopen.openSystem(fullpath);
 				
 		LocalAdressSearchSystem lasSystem = new LocalAdressSearchSystem();
 		lasSystem.mainSystem(listData);

@@ -1,31 +1,34 @@
 package mainTest_03;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LocalAdressValue
 {
-	String[][] adressData;
+	List<Map<String, String>> adressDataList = new ArrayList<Map<String, String>>();
 	int dataRowLength;
 	int dataLineLength;
 	boolean exitFlag = false;
 	LocalAdressValue(List<String> list)
 	{		
-		setArray(list);
+		setLocalAdressData(adressDataList, list);
 	}
 	
-	private void setArray(List<String> list)
+	private void setLocalAdressData(List<Map<String, String>> adressDataList, List<String> list)
 	{
-		dataRowLength = 5;
-		dataLineLength = list.size();
-		adressData = new String[dataLineLength][dataRowLength];
-		for(int i=0; i<dataLineLength; i++)
+		String[] nameArray = list.get(0).split(",");
+		int arrayLength = nameArray.length;
+		for(int i=1;i<list.size();i++)
 		{
-			String target = list.get(i);
-			String[] targetData = target.split(",");
-			for(int j=0; j<dataRowLength; j++)
+			Map<String,String> adressData = new HashMap<String,String>();
+			String[] targetArray = list.get(i).split(",");
+			for(int j=0;j<arrayLength;j++)
 			{
-				adressData[i][j]=targetData[j];
+				adressData.put(nameArray[i],targetArray[i]);
 			}
+			adressDataList.add(adressData);
 		}
 	}
 }

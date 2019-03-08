@@ -14,61 +14,56 @@ public class PasswordChecker {
 		int listLength = list.size();
 		for(int i=listLength-1;i>=0;i--)
 		{
-			PasswordCheckValue pwcValue = new PasswordCheckValue();
-			if(wordChecker(pwcValue, list.get(i)))
+			boolean error = wordChecker(list.get(i));
+			if(error)
 			{
 				list.remove(i);
 			}
 		}
 	}
 	
-	private boolean wordChecker(PasswordCheckValue pwcValue, String target)
+	private boolean wordChecker(String target)
 	{
-		boolean error = true;
-		int length = target.length();
+		boolean error = false;
 		
-		if(lengthChecker(length))	//암호 길이체크
+		error = lengthChecker(target);	//암호 길이체크.
+		if(error)
 		{
 			return error;
 		}
-		char[] targetArray = new char[length];
 		
-		setCharArray(target,targetArray);
-		
-		for(int i=0;i<length;i++)
-		{
-			if(compareWord(targetArray, i))	//암호 금지문자 체크
-			{
-				return error;
-			}
-			
-			if(i!=length-1)	//i가 마지막자리면 다음 값과 비교하면 안된다(다음자리랑 비교)
-			{
-				boolean repeatWord = setRepeatWordFlag(targetArray[i],targetArray[i+1],pwcValue);	//반복문 여부 확인.
-				if(repeatWord)
-				{
-					return error;
-				}	
-				
-				boolean chainNumber = setChainNumberFlag(targetArray[i],targetArray[i+1],pwcValue);	//연속된 숫자 여부 확인.
-				if(chainNumber)
-				{
-					return error;
-				}		
-			}
-			
-			setWordFlag(targetArray, i, pwcValue);	// 숫자여부, 영어여부, 특수문자 플래그 체크		
-			
-		}
-		if(!(pwcValue.nFlag&&pwcValue.aFlag&&pwcValue.sFlag))	//숫자여부 확인.
+		error = setWordFlag(target);	//암호에 포함된 문자 종료 확인.
+		if(error)	
 		{
 			return error;
 		}
-		return false;
+		
+		error = compareWord(target);	//금지 문자 확인.
+		if(error)	
+		{
+			return error;
+		}
+		
+		error = setChainNumberFlag(target);	//연속된 숫자 확인.
+		if(error)	
+		{
+			return error;
+		}
+		
+		error = setRepeatWordFlag(target);	//연속된 같은 문자 확인.
+		if(error)	
+		{
+			return error;
+		}
+		
+		//1
+		
+		return error;
 	}
 	
-	private boolean lengthChecker(int length)
+	private boolean lengthChecker(String target)
 	{
+		int length = target.length();
 		if(length<8||length>20)
 		{
 			return true;
@@ -76,82 +71,206 @@ public class PasswordChecker {
 		return false;
 	}
 	
-	private boolean compareWord(char[] targetArray, int index)
+	private boolean setWordFlag(String target)
+	{
+		char[] targetArray = target.toCharArray();
+		boolean alphaFlag=false;
+		boolean numberFlag=false;
+		boolean symbolFlag=false;
+		for(char value:targetArray)
+		{
+			int intValue = (int)value;
+			
+			if(intValue>96&&intValue<123)	//영어 대문자
+			{
+				if(alphaFlag)
+				{
+					continue;
+				}
+				alphaFlag = true;
+			}
+			else if(intValue>64&&intValue<91)	//영어 소문자
+			{
+				if(alphaFlag)
+				{
+					continue;
+				}
+				alphaFlag = true;
+			}
+			else if(intValue>47&&intValue<58)	//숫자
+			{
+				if(numberFlag)
+				{
+					continue;
+				}
+				numberFlag = true;
+			}
+			else
+			{
+				if(symbolFlag)
+				{
+					continue;
+				}
+				symbolFlag = true;
+			}
+			
+			if(alphaFlag&&numberFlag&&symbolFlag)	//모든 플래그가 true가 되면 반복 종료
+			{
+				return false;
+			}
+		}
+		return true;
+	}	
+	
+	//2
+	
+	private boolean compareWord(String target)
 	{
 		char[] compareWord = {'<','>','(',')','#','\'','|'};
 		for(char value:compareWord)
 		{
-			if(value==targetArray[index])
+			int res = target.indexOf(value);
+			if(res>=0)
 			{
 				return true;
 			}
 		}
 		return false;
-	}
+	}	
 	
-	private void setWordFlag(char[] targetArray, int index, PasswordCheckValue pwcValue)
+	private boolean setRepeatWordFlag(String target)
 	{
-		if(!pwcValue.nFlag||!pwcValue.aFlag||!pwcValue.sFlag)
+		boolean repeatWordFlag = false;
+		char[] targetArray = target.toCharArray();
+		for(int i=0;i<targetArray.length-1;i++)
 		{
-			int value = (int)targetArray[index];
-			if(value>=48&&value<=57)
+			if(targetArray[i]==targetArray[i+1])
 			{
-				pwcValue.nFlag = true;
-			}
-			else if((value>=97&&value<=122)||(value>=65&&value<=90))
-			{
-				pwcValue.aFlag = true;
+				if(repeatWordFlag)
+				{
+					return true;
+				}
+				else
+				{
+					repeatWordFlag = true;
+				}
 			}
 			else
 			{
-				pwcValue.sFlag = true;
-			}
-		}
-	}
-	
-	private void setCharArray(String word, char[] target)
-	{
-		for(int i=0;i<target.length;i++)
-		{
-			target[i]=word.charAt(i);
-		}
-	}
-	
-	
-	private boolean setRepeatWordFlag(char preValue, char postValue, PasswordCheckValue pwcValue)
-	{
-		if(preValue==postValue)
-		{
-			if(!pwcValue.repeatWordFlag)
-			{
-				pwcValue.repeatWordFlag=true;
-				return false;
-			}
-			else
-			{
-				pwcValue.repeatWordFlag=false;
-				return true;
+				repeatWordFlag = false;
 			}
 		}
 		return false;
 	}
 	
 	
-	private boolean setChainNumberFlag(char preValue, char postValue, PasswordCheckValue pwcValue)
+	private boolean setChainNumberFlag(String target)
 	{
-		if((int)preValue+1==(int)postValue)
+		boolean chainNumberFlag = false;
+		char[] targetArray = target.toCharArray();
+		for(int i=0;i<targetArray.length-1;i++)
 		{
-			if(!pwcValue.chainNumberFlag)
+			if((targetArray[i]+1)==targetArray[i+1])
 			{
-				pwcValue.chainNumberFlag=true;
-				return false;
+				if(chainNumberFlag)
+				{
+					return true;
+				}
+				else
+				{
+					chainNumberFlag = true;
+				}
 			}
 			else
 			{
-				pwcValue.chainNumberFlag=false;
-				return true;
+				chainNumberFlag = false;
 			}
 		}
 		return false;
 	}
 }
+
+//1
+
+//char[] targetArray = setCharArray(target, length);
+//char[] targetArray = target.toCharArray();
+//
+//for(int i=0;i<length;i++)
+//{
+//	error = compareWord(targetArray, i);
+//	if(error)	//암호 금지문자 체크
+//	{
+//		return error;
+//	}
+//	
+//	if(i!=length-1)	//i가 마지막자리면 다음 값과 비교하면 안된다(다음자리랑 비교)
+//	{
+//		error = setRepeatWordFlag(targetArray[i],targetArray[i+1],pwcValue);	//반복문 여부 확인.
+//		if(error)
+//		{
+//			return error;
+//		}	
+//		
+//		error = setChainNumberFlag(targetArray[i],targetArray[i+1],pwcValue);	//연속된 숫자 여부 확인.
+//		if(error)
+//		{
+//			return error;
+//		}		
+//	}
+//	
+//	setWordFlag(targetArray[i], pwcValue);	// 숫자여부, 영어여부, 특수문자 플래그 체크
+//
+//}
+//error=!(pwcValue.numberFlag&&pwcValue.alphaFlag&&pwcValue.symbolFlag);	//숫자여부 확인.
+//if(error)	
+//{
+//	return error;
+//}
+
+
+//2
+
+//private boolean setAlphaFlag(int value)
+//{
+//	int res = (int)value;
+//	if(res>96&&res<123)	//알파벳 소문자
+//	{
+//		return true;
+//	}
+//	else if(res>64&&res<91)	//알파벳 대문자
+//	{
+//		return true;
+//	}
+//	return false;
+//}
+//private boolean setNumberFlag(int value)
+//{
+//	int res = (int)value;
+//	if(res>47&&res<58)
+//	{
+//		return true;
+//	}
+//	return false;
+//}
+//
+//private boolean setSymbolFlag(int value)
+//{
+//	boolean notAlpha = !setAlphaFlag(value);
+//	boolean notNumber = !setNumberFlag(value);
+//	if(notAlpha&&notNumber)
+//	{
+//		return true;
+//	}
+//	return false;
+//}
+
+//private char[] setCharArray(String word)
+//{
+//	int length = word.length();
+//	char[] wordArray = new char[length];
+//	for(int i=0;i<length;i++)
+//	{
+//		wordArray[i]=word.charAt(i);
+//	}
+//	return wordArray;
+//}
