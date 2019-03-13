@@ -2,13 +2,13 @@ package mainTest_03;
 
 import java.util.List;
 
-public class LocalAdressValueNew {
+public class LocalAdressValue_Array {
 	
 	String[][] adressData;
 	int dataRowLength;
 	int dataLineLength;
 	boolean exitFlag = false;
-	LocalAdressValueNew(List<String> list)
+	LocalAdressValue_Array(List<String> list)
 	{		
 		setArray(list);
 	}
