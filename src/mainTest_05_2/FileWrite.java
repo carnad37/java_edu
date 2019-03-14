@@ -1,4 +1,4 @@
-package mainTest_05;
+package mainTest_05_2;
 
 import java.util.*;
 import java.io.BufferedWriter;

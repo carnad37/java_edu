@@ -1,18 +1,15 @@
-package mainTest_05;
+package mainTest_05_StringArray;
 
 import java.util.List;
 import java.util.Scanner;
 
-import mainTest_03.LocalAdressValue_Map;
 
 public class MainSystem
 {
 
-	public void mainMenu(List<String> listData,String USER_DATA)
+	public void mainMenu(List<String> listData,String userDataPath)
 	{
-		
 		Scanner scan = new Scanner(System.in);
-		
 		while(true)
 		{
 			System.out.println("======================================");
@@ -24,14 +21,32 @@ public class MainSystem
 			System.out.println("======================================");
 			System.out.print(">");
 			int select = selectInputSystem(scan);
-			distributeSevice(select, scan, USER_DATA);
-		}
-		
-		
+			boolean exitFlag = distributeSevice(select, scan, listData, userDataPath);
+			if(exitFlag)
+			{
+				System.out.println("시스템을 종료합니다.");
+				scan.close();
+				break;
+			}
+		}	
 	}
 	
-	private List<>
-	
+	private boolean distributeSevice(int selectNum, Scanner scan, List<String> list, String userDataPath)
+	{
+		switch(selectNum)
+		{
+		case 1:
+			SignInSystem signin = new SignInSystem();
+			signin.signInSystem(scan, list, userDataPath);
+			break;
+		case 2:
+			SignUpSystem signup = new SignUpSystem();
+			signup.signUpSystem(scan, list, userDataPath);
+			break;
+		case 3: return true;
+		}
+		return false;
+	}
 
 	private int selectInputSystem(Scanner scan)
 	{
@@ -44,7 +59,7 @@ public class MainSystem
 				System.out.print(">");
 				selectNumString = scan.nextLine();
 				selectNum = Integer.parseInt(selectNumString);
-				if(selectNum<1||selectNum>4)
+				if(selectNum<1||selectNum>3)
 				{
 					System.out.println("잘못된 입력입니다.");
 				}
@@ -60,31 +75,4 @@ public class MainSystem
 		}
 		return selectNum;		
 	}
-	
-	private void distributeSevice(int selectNum, Scanner scan, String USER_DATA)
-	{
-		switch(selectNum)
-		{
-		case 1:
-			LoginSystem login = new LoginSystem();
-			login.loginSystem(scan);
-			break;
-		case 2:
-			SignUpSystem signup = new SignUpSystem();
-			signup.system(scan);
-			break;
-		case 3:
-			postNumberSearch(scan);
-			break;
-		case 4: exitFlag = true;
-		}
-	}
-	
-	
-	private void goLoginSystem()
-	{
-		
-	}
-	
-	
 }

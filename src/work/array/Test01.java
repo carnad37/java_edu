@@ -10,11 +10,11 @@ public class Test01 {
 
 	public static void main(String[] args) {
 		
-		String word = "¹ä///";
-		String[] wordArray = new String[2];
-		wordArray = word.split("///");
-		System.out.println(wordArray[1]);
+		Map<String,String> test = new HashMap<String,String>();
 		
+		test.put("Á¡½É", "¹ä");
+		
+		System.out.println(test.get("Àú³á"));
 	}
 
 }

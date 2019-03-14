@@ -1,4 +1,4 @@
-package mainTest_05;
+package mainTest_05_HashMap;
 
 import java.io.BufferedReader;
 import java.io.File;
