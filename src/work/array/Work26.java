@@ -20,6 +20,14 @@ public class Work26 {
 			System.out.print("입력값을 적어주세요(입력값은 숫자+스페이스+숫자의 형식) : ");
 			String inputData = scan.nextLine();
 			char[] charArray = new char[inputData.length()];
+			
+			if(charArray[0]=='0')
+			{
+				//시스템이 종료되는 경우.
+				System.out.println("시스템을 종료합니다.");
+				break;
+			}
+			
 			int space = 0;
 			for(int i=0;i<charArray.length;i++)
 			{
@@ -29,12 +37,6 @@ public class Work26 {
 					space = i;
 				}
 				//사이는 스페이스로 구분된다.
-			}
-			if(charArray[0]=='0')
-			{
-				//시스템이 종료되는 경우.
-				System.out.println("시스템을 종료합니다.");
-				break;
 			}
 			w26.printCalData(charArray, space);
 			

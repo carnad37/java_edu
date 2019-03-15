@@ -13,7 +13,7 @@ public class Main {
 		List<String> listData = fileopen.openSystem(userDataPath);
 		
 		MainSystem mainSystem = new MainSystem();
-		mainSystem.mainMenu(listData, userDataPath);
+		mainSystem.mainSystem(listData, userDataPath);
 	
 	}	
 }

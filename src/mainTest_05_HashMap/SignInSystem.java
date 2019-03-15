@@ -1,58 +1,47 @@
 package mainTest_05_HashMap;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
+
+
 
 public class SignInSystem
 {
-	public void signInSystem(Scanner scan, List<String> list, String userDataPath)
+	public void signInSystem(UserDataValue userDB)
 	{
-		final String[] formatName = {"아이디","비밀번호","이름","주민번호","이메일","우편번호","주소","상세주소","전화번호","가입일자"};
-		List<Map<String,String>> userdata = setMapList(list, formatName);
-		
 		System.out.println("======================================");
 		System.out.println("로그인 페이지 입니다.");
 		System.out.println("======================================");
-		int userIndex=0;
 		while(true)
 		{
-			//1이상만 유저값. 
-			userIndex = mainChecker(userdata, scan);
-			if(userIndex==0)
+			boolean passLogin = mainCheckr(userDB);
+			
+			if(passLogin) break;			
+			
+			System.out.println("다시 로그인 하시겠습니까?");
+			boolean answer = MainSystem.setAnswer();
+			if(answer)
 			{
-				//로그인여부 확인
-				System.out.println("다시 로그인 하시겠습니까?");
-				boolean answer = setAnswer(scan);
-				if(answer)
-				{
-					continue;
-				}
-				else
-				{
-					return;
-				}
+				continue;
 			}
 			else
 			{
-				break;
-			}
+				return;
+			}			
 		}
-		//관리자 여부 확인
-		if(userIndex==1)
+			//관리자 여부 확인
+		if(userDB.userNumber==1)
 		{
 			AdminSystem admin = new AdminSystem();
-			admin.adminSystem(userdata, list, scan, userDataPath);
+			admin.adminSystem(userDB);
 			return;
 		}
 		else
 		{
 			UserSystem user = new UserSystem();
-			user.userSystem(userIndex, userdata, list, scan, userDataPath);
+			user.userSystem(userDB);
 			return;
-		}		
+		}			
 //		boolean adminFlag = adminChecker(userdata, userIndex);
 //		if(adminFlag)
 //		{
@@ -68,45 +57,41 @@ public class SignInSystem
 //		}
 	}
 	
-	private List<Map<String,String>> setMapList(List<String> list, String[] formatName)
+	private boolean mainCheckr(UserDataValue userDB)
 	{
-		List<Map<String,String>> mapList = new ArrayList<Map<String,String>>();
-		int length = formatName.length;
-		for(String value:list)
+		userDB.userNumber = idChecker(userDB.userData);			
+		//1이상만 유저값. 
+		if(userDB.userNumber==0)
 		{
-			Map<String,String> mapData = new HashMap<String, String>();
-			String[] valueArray = value.split(",");
-			for(int i=0;i<length;i++)
-			{
-				mapData.put(formatName[i], valueArray[i]);
-			}
-			mapList.add(mapData);
+			return false;
 		}
-		return mapList;
+		boolean passLogin = pwChecker(userDB);
+		if(passLogin)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
-	private int mainChecker(List<Map<String,String>> userdata, Scanner scan)
+	private int idChecker(List<Map<String,String>> userDB)
 	{
 		System.out.println("아이디를 입력해주세요.");
 		for(int i=3; i>0; i--)
 		{
 			System.out.print(">");
-			String inputID = scan.nextLine();
-			for(int userIndex=1;userIndex<userdata.size();userIndex++)
+			String inputID = MainSystem.scan.nextLine();
+			
+			for(int userNumber=1; userNumber<userDB.size(); userNumber++)
 			{
-				String compareID = userdata.get(userIndex).get("아이디");
+				Map<String,String> targetdata = userDB.get(userNumber);
+				String compareID = targetdata.get("아이디");
+				
 				if(inputID.equals(compareID))
 				{
-					String pw = userdata.get(userIndex).get("비밀번호");
-					boolean passWordCheck = pwChecker(scan, pw);
-					if(passWordCheck)
-					{
-						return userIndex;
-					}
-					else
-					{
-						return 0;
-					}
+					return userNumber;
 				}
 			}
 			System.out.println("잘못된 아이디입니다.");
@@ -116,13 +101,17 @@ public class SignInSystem
 		return 0;
 	}
 	
-	private boolean pwChecker(Scanner scan, String pw)
+	private boolean pwChecker(UserDataValue userDB)
 	{
+		Map<String,String> targetData = userDB.userData.get(userDB.userNumber);
+		String pw = targetData.get("비밀번호");
+		
 		System.out.println("비밀번호를 입력해주세요.");
+		
 		for(int i=3; i>0; i--)
 		{
 			System.out.print(">");
-			String inputPW = scan.nextLine();
+			String inputPW = MainSystem.scan.nextLine();
 			if(inputPW.equals(pw))
 			{
 				return true;
@@ -131,6 +120,7 @@ public class SignInSystem
 			System.out.println("다시 입력해주세요.");
 			System.out.println("(남은 재시도 횟수 : "+(i-1)+"회)");
 		}
+		
 		return false;
 	}
 	
@@ -147,30 +137,4 @@ public class SignInSystem
 //		
 //	}
 	
-	private boolean setAnswer(Scanner scan)
-	{
-		while(true)
-		{
-			System.out.print("(y/n) > ");
-			String select = scan.nextLine();
-			if(select.length()>1)
-			{
-				System.out.println("잘못된 입력입니다.");
-				continue;
-			}
-			select = select.toLowerCase();
-			if(select.equals("y"))
-			{
-				return true;
-			}
-			else if(select.equals("n"))
-			{
-				return false;
-			}
-			else
-			{
-				System.out.println("잘못된 입력입니다.");
-			}
-		}
-	}	
 }

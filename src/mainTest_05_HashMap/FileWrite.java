@@ -7,10 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public class FileWrite {
-	
-	
+
 	public void writeSystem(List<String> list, String writeFath)
 	{
 		File writeFile = null;

@@ -9,12 +9,58 @@ import java.util.*;
 public class Test01 {
 
 	public static void main(String[] args) {
-		
-		Map<String,String> test = new HashMap<String,String>();
-		
-		test.put("점심", "밥");
-		
-		System.out.println(test.get("저녁"));
+		Scanner scan = new Scanner(System.in);
+
+		// 국어, 영어, 수학 점수를 받아서 총점,평균,학점 구하기
+		while (true) {
+			String name = "";
+			int kor, eng, math = 0;
+
+			System.out.print("이름 :");
+			name = scan.next();
+
+			System.out.print("국어점수 입력:");
+			kor = scan.nextInt();
+
+			System.out.print("영어점수 입력:");
+			eng = scan.nextInt();
+
+			System.out.print("수학점수 입력:");
+			math = scan.nextInt();
+			
+			// 총점, 평균, 학점 구하기
+			int sum = kor + eng + math;
+			double avg = (int) ((sum / 3.0) * 10) / 10.0;
+
+			String hak = "";
+			if (avg >= 90) {
+				hak = "A 학점";
+			} else if (avg >= 80) {
+				hak = "B 학점";
+			} else if (avg >= 70) {
+				hak = "C 학점";
+			} else if (avg >= 60) {
+				hak = "D 학점";
+			} else {
+				hak = "F 학점";
+			}
+
+			System.out.println("***시험결과***");
+			System.out.println("성명 : " + name);
+			System.out.println("총점 : " + sum);
+			System.out.println("평균 : " + avg);
+			System.out.println("학점 : " + hak);
+			System.out.println("**********");
+
+			System.out.println("Again? (Y/N) : ");
+			String msg = scan.next();
+			if (msg.equalsIgnoreCase("n"))
+				break;
+
+		}
+
+		System.out.println("수고 하셨습니다.");
+
 	}
 
 }

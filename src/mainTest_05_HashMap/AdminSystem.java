@@ -1,15 +1,11 @@
 package mainTest_05_HashMap;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Scanner;
-import java.util.Set;
 
 public class AdminSystem
 {
-	
-	public void adminSystem( List<Map<String, String>> userdata, List<String> list, Scanner scan, String userDataPath)
+	public void adminSystem(UserDataValue userDB)
 	{
 		System.out.println("======================================");
 		System.out.println("관리자 페이지 입니다.");
@@ -23,8 +19,8 @@ public class AdminSystem
 			System.out.println("4.로그아웃");
 			System.out.println("");
 			System.out.println("======================================");
-			int select = selectInputSystem(scan);
-			boolean exitFlag = distributeSevice(select,userdata,list,scan,userDataPath);
+			int select = MainSystem.selectInputSystem(1,4);
+			boolean exitFlag = distributeSevice(select, userDB);
 			if(exitFlag)
 			{
 				System.out.println("로그아웃합니다.");
@@ -33,71 +29,55 @@ public class AdminSystem
 		}
 	}
 	
-	private int selectInputSystem(Scanner scan)
+	private boolean distributeSevice(int select, UserDataValue userDB)
 	{
-		String selectNumString = null;
-		int selectNum = 0;
-		while(true)
-		{
-			try
-			{
-				System.out.print(">");
-				selectNumString = scan.nextLine();
-				selectNum = Integer.parseInt(selectNumString);
-				if(selectNum<1||selectNum>4)
-				{
-					System.out.println("잘못된 입력입니다.");
-				}
-				else
-				{
-					break;
-				}
-			}
-			catch(NumberFormatException e)
-			{
-				System.out.println("잘못된 입력입니다.");
-			}
-		}
-		return selectNum;		
-	}
-	
-	private boolean distributeSevice(int selectNum, List<Map<String, String>> userdata, List<String> list, Scanner scan, String userDataPath)
-	{
-		switch(selectNum)
+		switch(select)
 		{
 		case 1:
-			adminSearch(userdata,scan,"아이디");
+			adminSearch(userDB,"아이디");
 			break;
 		case 2:
-			adminSearch(userdata,scan, "이름");
+			adminSearch(userDB,"이름");
 			break;
 		case 3:
-			resetPassWord(userdata, list, scan, userDataPath);
+			resetPassWord(userDB);
 			break;
 		case 4: return true;
 		}
 		return false;
 	}
 	
-	private void resetPassWord(List<Map<String,String>> userdata, List<String> list,  Scanner scan,  String userDataPath)
+	private void resetPassWord(UserDataValue userDB)
 	{
 
 		System.out.println("대상의 아이디를 입력해주세요");
 		System.out.print(">");
-		String target = scan.nextLine();
-		for(int i=1;i<userdata.size();i++)
+		String target = MainSystem.scan.nextLine();
+		for(int i=1;i<userDB.userData.size();i++)
 		{
-			String res = userdata.get(i).get("아이디");
+			String res = userDB.userData.get(i).get("아이디");
 			if(target.equals(res))
 			{
-				FileWrite filewrite = new FileWrite();
-				String rawData = list.get(i);
 				String newPW = setRandomWord(8);
-				System.out.println("newPW");
-				String oldPW = userdata.get(i).get("비밀번호");
-				rawData = rawData.replace(oldPW, newPW);
-				list.set(i, rawData);
-				filewrite.writeSystem(list, userDataPath);
+
+				userDB.userNumber = i;				
+				userDB.setCurrentUser();
+				
+				userDB.currentUser.remove("비밀번호");
+				userDB.currentUser.put("비밀번호",newPW);
+				
+//				userDB.userData.get(i).remove("비밀번호");
+//				userDB.userData.get(i).put("비밀번호",newPW);
+//				
+//				Map<String,String> newUserData= userDB.userData.get(i);
+//				String newDataString = userDB.setCurrentUserToString(newUserData);
+				
+				String newData = userDB.setCurrentUserToString();
+						
+				userDB.userList.set(userDB.userNumber, newData);
+								
+				FileWrite filewrite = new FileWrite();
+				filewrite.writeSystem(userDB.userList, userDB.userDataPath);
 				return;
 			}
 		}
@@ -116,60 +96,32 @@ public class AdminSystem
 		return result;
 	}
 	
-	private void adminSearch(List<Map<String,String>> userdata, Scanner scan, String searchWord)
+	private void adminSearch(UserDataValue userDB, String searchWord)
 	{
 		while(true)
 		{
-			System.out.println(searchWord+"를 입력해주세요");
+			System.out.println(searchWord+"(를/을) 입력해주세요");
 			System.out.print(">");
-			String target = scan.nextLine();
+			String target = MainSystem.scan.nextLine();
 			
-			for(Map<String,String> value:userdata)
+			for(Map<String,String> value : userDB.userData)
 			{
 				String res = value.get(searchWord);
 				if(target.equals(res))
 				{
-					Set<String> setkey = value.keySet();
-					for(String data : setkey)
+					for(String data : userDB.formatName)
 					{
 						System.out.println(data+" : "+value.get(data));
 					}
 					return;
 				}
 			}
-			System.out.println("대응하는 "+searchWord+"가 없습니다.");
+			System.out.println("대응하는 "+searchWord+"이/가 없습니다.");
 			System.out.println("다시 검색하시겠습니까?");
-			boolean answer = setAnswer(scan);
+			boolean answer = MainSystem.setAnswer();
 			if(!answer)
 			{
 				return;
-			}
-		}
-	}
-	
-	private boolean setAnswer(Scanner scan)
-	{
-		while(true)
-		{
-			System.out.print("(y/n) >");
-			String select = scan.nextLine();
-			if(select.length()>1)
-			{
-				System.out.println("잘못된 입력입니다.");
-				continue;
-			}
-			select = select.toLowerCase();
-			if(select.equals("y"))
-			{
-				return true;
-			}
-			else if(select.equals("n"))
-			{
-				return false;
-			}
-			else
-			{
-				System.out.println("잘못된 입력입니다.");
 			}
 		}
 	}

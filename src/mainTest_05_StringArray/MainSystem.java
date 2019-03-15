@@ -6,10 +6,19 @@ import java.util.Scanner;
 
 public class MainSystem
 {
-
-	public void mainMenu(List<String> listData,String userDataPath)
+	public static Scanner scan = null;
+	
+	MainSystem()
 	{
-		Scanner scan = new Scanner(System.in);
+		scan = new Scanner(System.in);
+	}
+	
+	public void mainSystem(List<String> listData, String userDataPath)
+	{
+		UserDataValue userdata = new UserDataValue();
+		userdata.userList = listData;
+		userdata.userDataPath = userDataPath;
+		
 		while(true)
 		{
 			System.out.println("======================================");
@@ -20,35 +29,41 @@ public class MainSystem
 			System.out.println("");
 			System.out.println("======================================");
 			System.out.print(">");
-			int select = selectInputSystem(scan);
-			boolean exitFlag = distributeSevice(select, scan, listData, userDataPath);
+			int select = selectInputSystem(1,3);
+			boolean exitFlag = distributeSevice(select, userdata);
 			if(exitFlag)
 			{
-				System.out.println("시스템을 종료합니다.");
-				scan.close();
-				break;
+				System.out.println("정말 종료하시겠습니까?");
+				boolean answer = MainSystem.setAnswer();
+				if(answer)
+				{
+					System.out.println("시스템을 종료합니다.");
+					scan.close();
+					break;
+				}
+				System.out.println("");
 			}
 		}	
 	}
 	
-	private boolean distributeSevice(int selectNum, Scanner scan, List<String> list, String userDataPath)
+	private boolean distributeSevice(int selectNum, UserDataValue userdata)
 	{
 		switch(selectNum)
 		{
 		case 1:
 			SignInSystem signin = new SignInSystem();
-			signin.signInSystem(scan, list, userDataPath);
+			signin.signInSystem(userdata);
 			break;
 		case 2:
 			SignUpSystem signup = new SignUpSystem();
-			signup.signUpSystem(scan, list, userDataPath);
+			signup.mainSystem(userdata);
 			break;
 		case 3: return true;
 		}
 		return false;
 	}
 
-	private int selectInputSystem(Scanner scan)
+	public static int selectInputSystem(int start, int end)
 	{
 		String selectNumString = null;
 		int selectNum = 0;
@@ -59,7 +74,7 @@ public class MainSystem
 				System.out.print(">");
 				selectNumString = scan.nextLine();
 				selectNum = Integer.parseInt(selectNumString);
-				if(selectNum<1||selectNum>3)
+				if(selectNum<start||selectNum>end)
 				{
 					System.out.println("잘못된 입력입니다.");
 				}
@@ -74,5 +89,32 @@ public class MainSystem
 			}
 		}
 		return selectNum;		
+	}
+	
+	public static boolean setAnswer()
+	{
+		while(true)
+		{
+			System.out.print("(y/n) > ");
+			String select = scan.nextLine();
+			if(select.length()>1)
+			{
+				System.out.println("잘못된 입력입니다.");
+				continue;
+			}
+			select = select.toLowerCase();
+			if(select.equals("y"))
+			{
+				return true;
+			}
+			else if(select.equals("n"))
+			{
+				return false;
+			}
+			else
+			{
+				System.out.println("잘못된 입력입니다.");
+			}
+		}
 	}
 }
