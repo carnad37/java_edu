@@ -1,6 +1,7 @@
 package mainTest_05_StringArray;
 
 import java.util.List;
+import java.util.Map;
 
 public class SignInSystem
 {
@@ -15,24 +16,24 @@ public class SignInSystem
 		while(true)
 		{
 			//1이상만 유저값. 
-			userIndex = mainChecker(userdata.userData);
-			if(userIndex==0)
+			
+			boolean passLogin = mainChecker(userdata);
+			
+			if(passLogin)
 			{
-				//로그인여부 확인
-				System.out.println("다시 로그인 하시겠습니까?");
-				boolean answer = MainSystem.setAnswer();
-				if(answer)
-				{
-					continue;
-				}
-				else
-				{
-					return;
-				}
+				break;			
+			}
+			
+			System.out.println("다시 로그인 하시겠습니까?");
+			boolean answer = MainSystem.setAnswer();
+			
+			if(answer)
+			{
+				continue;
 			}
 			else
 			{
-				break;
+				return;
 			}
 		}
 		//관리자 여부 확인
@@ -64,7 +65,27 @@ public class SignInSystem
 	}
 	
 	
-	private int mainChecker(List<String[]> userdata)
+	
+	private boolean mainChecker(UserDataValue userdata)
+	{
+		userdata.userNumber = idChecker(userdata.userData);			
+		//1이상만 유저값. 
+		if(userdata.userNumber==0)
+		{
+			return false;
+		}
+		boolean passLogin = pwChecker(userdata);
+		if(passLogin)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	private int idChecker(List<String[]> userdata)
 	{
 		System.out.println("아이디를 입력해주세요.");
 		for(int i=3; i>0; i--)
@@ -76,16 +97,7 @@ public class SignInSystem
 				String compareID = userdata.get(userIndex)[0];
 				if(inputID.equals(compareID))
 				{
-					String pw = userdata.get(userIndex)[1];
-					boolean passWordCheck = pwChecker(pw);
-					if(passWordCheck)
-					{
-						return userIndex;
-					}
-					else
-					{
-						return 0;
-					}
+					return userIndex;
 				}
 			}
 			System.out.println("잘못된 아이디입니다.");
@@ -95,8 +107,12 @@ public class SignInSystem
 		return 0;
 	}
 	
-	private boolean pwChecker(String pw)
+	
+	private boolean pwChecker(UserDataValue userdata)
 	{
+		String[] targetArray = userdata.userData.get(userdata.userNumber);
+		String pw = targetArray[1];
+		
 		System.out.println("비밀번호를 입력해주세요.");
 		for(int i=3; i>0; i--)
 		{

@@ -2,7 +2,8 @@ package ex190213.SynchronizedEx01;
 
 public class MainThreadExample {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		Calculator calculator = new Calculator();
 		
 		User1 user1 = new User1();

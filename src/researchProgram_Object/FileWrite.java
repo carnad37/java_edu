@@ -1,4 +1,4 @@
-package mainTest_05_HashMap;
+package researchProgram_Object;
 
 import java.util.*;
 import java.io.BufferedWriter;
@@ -7,8 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FileWrite {
 
+public class FileWrite {
+	
+	
 	public void writeSystem(List<String> list, String writeFath)
 	{
 		File writeFile = null;
@@ -24,6 +26,7 @@ public class FileWrite {
 				bWriteFile.write(value);
 				bWriteFile.newLine();
 			}			
+			
 		}
 		catch(FileNotFoundException e)
 		{
@@ -45,4 +48,5 @@ public class FileWrite {
 			}
 		}	
 	}
+
 }

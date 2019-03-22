@@ -16,10 +16,14 @@ public class SignInSystem
 		{
 			boolean passLogin = mainCheckr(userDB);
 			
-			if(passLogin) break;			
+			if(passLogin)
+			{
+				break;			
+			}
 			
 			System.out.println("다시 로그인 하시겠습니까?");
 			boolean answer = MainSystem.setAnswer();
+			
 			if(answer)
 			{
 				continue;
@@ -27,7 +31,8 @@ public class SignInSystem
 			else
 			{
 				return;
-			}			
+			}
+			
 		}
 			//관리자 여부 확인
 		if(userDB.userNumber==1)
@@ -65,7 +70,11 @@ public class SignInSystem
 		{
 			return false;
 		}
-		boolean passLogin = pwChecker(userDB);
+		
+		Map<String,String> targetData = userDB.userData.get(userDB.userNumber);
+		String pw = targetData.get("비밀번호");
+		boolean passLogin = pwChecker(pw);
+		
 		if(passLogin)
 		{
 			return true;
@@ -79,7 +88,7 @@ public class SignInSystem
 	private int idChecker(List<Map<String,String>> userDB)
 	{
 		System.out.println("아이디를 입력해주세요.");
-		for(int i=3; i>0; i--)
+		for(int i=3; i>0; i--)	//반복횟수
 		{
 			System.out.print(">");
 			String inputID = MainSystem.scan.nextLine();
@@ -101,11 +110,8 @@ public class SignInSystem
 		return 0;
 	}
 	
-	private boolean pwChecker(UserDataValue userDB)
+	private boolean pwChecker(String pw)
 	{
-		Map<String,String> targetData = userDB.userData.get(userDB.userNumber);
-		String pw = targetData.get("비밀번호");
-		
 		System.out.println("비밀번호를 입력해주세요.");
 		
 		for(int i=3; i>0; i--)

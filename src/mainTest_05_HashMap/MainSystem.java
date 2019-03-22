@@ -43,7 +43,7 @@ public class MainSystem
 				}
 				System.out.println("");
 			}
-		}	
+		}
 	}
 	
 	private boolean distributeSevice(int selectNum, UserDataValue userDB)

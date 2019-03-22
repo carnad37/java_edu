@@ -34,10 +34,10 @@ public class AdminSystem
 		switch(select)
 		{
 		case 1:
-			adminSearch(userDB,"아이디");
+			adminSearchSystem(userDB,"아이디");
 			break;
 		case 2:
-			adminSearch(userDB,"이름");
+			adminSearchSystem(userDB,"이름");
 			break;
 		case 3:
 			resetPassWord(userDB);
@@ -96,7 +96,7 @@ public class AdminSystem
 		return result;
 	}
 	
-	private void adminSearch(UserDataValue userDB, String searchWord)
+	private void adminSearchSystem(UserDataValue userDB, String searchWord)
 	{
 		while(true)
 		{
@@ -104,18 +104,12 @@ public class AdminSystem
 			System.out.print(">");
 			String target = MainSystem.scan.nextLine();
 			
-			for(Map<String,String> value : userDB.userData)
+			boolean searchPass = targetSearch(userDB, target, searchWord);
+			if(searchPass)
 			{
-				String res = value.get(searchWord);
-				if(target.equals(res))
-				{
-					for(String data : userDB.formatName)
-					{
-						System.out.println(data+" : "+value.get(data));
-					}
-					return;
-				}
+				return;
 			}
+			
 			System.out.println("대응하는 "+searchWord+"이/가 없습니다.");
 			System.out.println("다시 검색하시겠습니까?");
 			boolean answer = MainSystem.setAnswer();
@@ -125,4 +119,27 @@ public class AdminSystem
 			}
 		}
 	}
+	
+	private boolean targetSearch(UserDataValue userDB, String target, String searchWord)
+	{
+		for(Map<String,String> value : userDB.userData)
+		{
+			String res = value.get(searchWord);
+			if(target.equals(res))
+			{
+				printUserData(value, userDB.formatName);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void printUserData(Map<String,String> target, String[] valueName)
+	{
+		for(String data : valueName)
+		{
+			System.out.println(data+" : "+target.get(data));
+		}
+	}
+	
 }

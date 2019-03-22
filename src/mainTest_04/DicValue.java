@@ -12,8 +12,7 @@ public class DicValue
 	DicValue(List<String> dicData)
 	{
 //		dicDataMap = dicListData(dicData);
-	}
-	
+	}	
 	
 	private Map<String, List<String[]>> dicListData(List<String> dicData)
 	{
