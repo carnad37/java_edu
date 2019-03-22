@@ -9,9 +9,11 @@ import java.util.Set;
 
 public class MainSystem
 {
+	public static final boolean YES = true;
+	public static final boolean NO = false;
 	public static final boolean PASS = true;
 	public static final boolean ERROR = false;
-	public static final int NOT_HAVE_TARGET = -1;
+	public static final int HAVE_NOT_TARGET = -1;
 	static Scanner scan;
 	
 	public MainSystem()
@@ -34,11 +36,11 @@ public class MainSystem
 			System.out.println("=======================================");
 			int select = selectInputSystem(1,4);
 			boolean exitFlag = distributeSevice(select,researchDB,mainPath);
-			if(exitFlag)
+			if(exitFlag==YES)
 			{
 				System.out.println("정말 종료하시겠습니까?");
 				boolean answer = setAnswer();
-				if(answer)
+				if(answer==YES)
 				{
 					return;
 				}
@@ -161,7 +163,7 @@ public class MainSystem
 			return ERROR;
 		}
 		int result = target.indexOf(banWord);
-		if(result==NOT_HAVE_TARGET)
+		if(result==HAVE_NOT_TARGET)
 		{
 			return PASS;
 		}

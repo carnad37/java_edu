@@ -16,7 +16,10 @@ public class ReserchSetting
 	static final boolean ERROR = MainSystem.ERROR;
 	static final boolean REGISTER = PASS;
 	static final boolean UNREGISTER = ERROR;
-	static final int QUESTION_Title = 0;
+	static final boolean YES = MainSystem.YES;
+	static final boolean NO = MainSystem.NO;
+	
+	static final int QUESTION_TITLE = 0;
 	
 	public void setResearch(String mainPath, Map<String,Research> researchDB)
 	{
@@ -33,7 +36,7 @@ public class ReserchSetting
 			System.out.println("=======================================");
 			int select = MainSystem.selectInputSystem(1,4);
 			boolean exitFlag = distributeSevice(select, mainPath, researchDB);
-			if(exitFlag)
+			if(exitFlag==YES)
 			{
 				return;
 			}
@@ -74,8 +77,8 @@ public class ReserchSetting
 			UnitQA listQA = makeQA(targetQuestionNumber, answerStartNumber, mainPath);	//	
 			targetResearch.setQA(listQA);
 			
-			SystemValue sValue = new SystemValue();
-			sValue.saveResearchData(targetResearch, mainPath);
+			FileDataManager setValue = new FileDataManager();
+			setValue.saveResearchData(targetResearch, mainPath);
 		}
 		else
 		{
@@ -138,7 +141,7 @@ public class ReserchSetting
 			targetResearch.printUnitQA(listQA, selectQuestionNumber);
 			System.out.println("선택하신 질문이 맞으십니까?");
 			boolean answer = MainSystem.setAnswer();
-			if(answer)
+			if(answer==YES)
 			{
 				break;
 			}
@@ -159,12 +162,12 @@ public class ReserchSetting
 				resetData(mainPath, selectQuestionNumber, listQA);
 			}
 			System.out.println("수정을 끝내시겠습니까?");
-			SystemValue sValue = new SystemValue();
+			FileDataManager setValue = new FileDataManager();
 			
-			sValue.saveAllResearchData(researchDB, rawRegiserTitle, mainPath);
+			setValue.saveAllResearchData(researchDB, rawRegiserTitle, mainPath);
 			
 			boolean answer = MainSystem.setAnswer();
-			if(answer)
+			if(answer==YES)
 			{
 				break;
 			}
@@ -174,12 +177,12 @@ public class ReserchSetting
 	private void addData(String mainPath, int selectQuestionNumber, UnitQA listQA)
 	{
 		System.out.println("추가할 답변을 입력해주세요");
-		SystemValue sValue = new SystemValue();
+		FileDataManager setValue = new FileDataManager();
 		
 		List<String> currentAnswer = listQA.getAnswer(selectQuestionNumber);
 		
 		int answerStartNumber = currentAnswer.size()+1;
-		makeAnswer(answerStartNumber, currentAnswer, sValue);
+		makeAnswer(answerStartNumber, currentAnswer, setValue);
 		
 		listQA.setAnswer(selectQuestionNumber, currentAnswer);
 	}
@@ -200,14 +203,13 @@ public class ReserchSetting
 		int select = MainSystem.selectInputSystem(1, selectSize);
 		select--;
 		
-		SystemValue sValue = new SystemValue();
 		String newData = null;
 		while(true)
 		{
 			System.out.println("새로운 내용을 입력해주세요.");
 			System.out.print(">");
 			newData = MainSystem.scan.nextLine();
-			boolean wordCheck = sValue.wordCheckerQA(newData);
+			boolean wordCheck = MainSystem.banBlank(newData);
 			if(wordCheck==ERROR)
 			{
 				continue;
@@ -216,7 +218,7 @@ public class ReserchSetting
 		}
 		//1이면 question.
 		//1이상이면 answer로.
-		if(select==QUESTION_Title)
+		if(select==QUESTION_TITLE)
 		{
 			listQA.setQuestion(selectQuestionNumber, newData);
 		}
@@ -247,20 +249,20 @@ public class ReserchSetting
 		System.out.println("=======================================");
 		System.out.println("질문과 답변 등록을 시작합니다.");
 		System.out.println("=======================================");
-		SystemValue sValue = new SystemValue();
+		FileDataManager setValue = new FileDataManager();
 		for(int i=1;i<=questionNumber;i++)
 		{
-			String newQuestion = makeQuestion(i,sValue);
+			String newQuestion = makeQuestion(i,setValue);
 			unitQA.addQuestion(newQuestion);
 			
 			List<String> newAnswer = new ArrayList<String>();
-			makeAnswer(startNumber, newAnswer,sValue);
+			makeAnswer(startNumber, newAnswer,setValue);
 			unitQA.addAnswer(newAnswer);
 		}
 		return unitQA;
 	}
 	
-	private String makeQuestion(int index, SystemValue sValue)
+	private String makeQuestion(int index, FileDataManager setValue)
 	{
 		System.out.println("=======================================");
 		while(true)
@@ -268,8 +270,8 @@ public class ReserchSetting
 			System.out.println("※"+index+"번째 질문을 입력해주세요.");
 			System.out.print(">");
 			String question = MainSystem.scan.nextLine();
-			boolean wordCheck = sValue.wordCheckerQA(question);
-			if(!wordCheck)
+			boolean wordCheck = MainSystem.banBlank(question);
+			if(wordCheck==ERROR)
 			{
 				continue;
 			}
@@ -277,15 +279,15 @@ public class ReserchSetting
 		}
 	}
 	
-	private void makeAnswer(int startNum, List<String> answer, SystemValue sValue)
+	private void makeAnswer(int startNum, List<String> answer, FileDataManager setValue)
 	{
 		while(true)
 		{
 			System.out.println(startNum+"번째 답변을 입력해주세요.");
 			System.out.print(">");
 			String newAnswer = MainSystem.scan.nextLine();
-			boolean wordCheck = sValue.wordCheckerQA(newAnswer);
-			if(!wordCheck)
+			boolean wordCheck = MainSystem.banBlank(newAnswer);
+			if(wordCheck==ERROR)
 			{
 				continue;
 			}
@@ -294,7 +296,7 @@ public class ReserchSetting
 			{
 				System.out.println("답변을 더 추가하시겠습니까?");
 				boolean select = MainSystem.setAnswer();
-				if(!select)
+				if(select==NO)
 				{
 					return;
 				}

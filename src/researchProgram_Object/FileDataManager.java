@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class SystemValue
+public class FileDataManager
 {
 	private List<String> setRawData(String path, String subPath)
 	{
@@ -33,9 +33,24 @@ public class SystemValue
 			String closedate = rawToken.nextToken();
 			Research research = new Research(title, customer, subject, questionNumber, opendate, closedate);
 			dataBaseMap.put(title, research);
-		}				
+		}
 		return dataBaseMap;
 	}
+	
+//	public void saveAllResearchData(Map<String, Research> researchDB, List<String> regiserTitle, String mainPath)
+//	{
+//		String subPath = "researchData.txt";
+//		String path = mainPath+subPath;
+//		List<String> saveList = new ArrayList<String>();
+//		
+//		for(String title : regiserTitle)
+//		{
+//			Research targetResearch = researchDB.get(title);
+//			String researchStringData = researchToString(targetResearch);			
+//			saveList.add(researchStringData);
+//		}		
+//		saveToTxt(saveList, path);	
+//	}
 	
 	public void saveAllResearchData(Map<String, Research> researchDB, List<String> regiserTitle, String mainPath)
 	{
@@ -45,10 +60,22 @@ public class SystemValue
 		
 		for(String title : regiserTitle)
 		{
-			Research targetResearch = researchDB.get(title);
-			String researchStringData = researchToString(targetResearch);			
-			saveList.add(researchStringData);
-		}		
+			saveList.add(title);	//타이틀입력
+			Research research = researchDB.get(title);
+			int questionNumber = research.getQuestionNumber();
+			UnitQA listQA = research.getListQA();
+			for(int i=0;i<questionNumber;i++)
+			{
+				String question = listQA.getQuestion(i);
+				saveList.add(question);
+				List<String> answer = listQA.getAnswer(i);
+				for(String unitAnswer : answer)
+				{
+					saveList.add(unitAnswer);
+				}
+				saveList.add("");
+			}
+		}				
 		saveToTxt(saveList, path);	
 	}
 	
@@ -137,7 +164,7 @@ public class SystemValue
 			apartQA(stringQA, unitQA);			
 		}
 	}
-		
+	
 	private void apartQA(String stringQA, UnitQA unitQA)
 	{
 		StringTokenizer stringQAToken = new StringTokenizer(stringQA, ",,");		
@@ -168,19 +195,19 @@ public class SystemValue
 		return stringQA;
 	}
 	
-	public boolean wordCheckerQA(String word)
-	{
-		boolean wordCheck = MainSystem.wordChecker(word, ",,");
-		if(!wordCheck)
-		{
-			return false;
-		}
-		wordCheck = MainSystem.wordChecker(word, "@@");
-		if(!wordCheck)
-		{
-			return false;
-		}
-		return true;
-	}
+//	public boolean wordCheckerQA(String word)
+//	{
+//		boolean wordCheck = MainSystem.wordChecker(word, ",,");
+//		if(MainSystem.ERROR==wordCheck)
+//		{
+//			return false;
+//		}
+//		wordCheck = MainSystem.wordChecker(word, "@@");
+//		if(MainSystem.ERROR==wordCheck)
+//		{
+//			return false;
+//		}
+//		return true;
+//	}
 	
 }

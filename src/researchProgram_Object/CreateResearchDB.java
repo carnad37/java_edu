@@ -7,6 +7,8 @@ public class CreateResearchDB
 {
 	static final boolean ERROR = MainSystem.ERROR;
 	static final boolean PASS = MainSystem.PASS;
+	static final boolean YES = MainSystem.YES;
+	static final boolean NO = MainSystem.NO;
 	
 	public void createDB(Map<String,Research> researchDB, String mainPath)
 	{
@@ -19,17 +21,17 @@ public class CreateResearchDB
 			research.printResearchSummary();
 			System.out.println("위 내용대로 입력하시겠습니까?");
 			boolean answer = MainSystem.setAnswer();
-			if(answer)
+			if(answer==YES)
 			{
 				String key = research.getTitle();
 				researchDB.put(key, research);
-				SystemValue sValue = new SystemValue();
-				sValue.saveDataToDB(research, mainPath);
+				FileDataManager setValue = new FileDataManager();
+				setValue.saveDataToDB(research, mainPath);
 				return;
 			}
 			System.out.println("다시 입력하시겠습니까?");
 			answer = MainSystem.setAnswer();
-			if(!answer)
+			if(answer==NO)
 			{
 				return;
 			}
@@ -78,7 +80,7 @@ public class CreateResearchDB
 		System.out.print(">");
 		researchtitle = MainSystem.scan.nextLine();
 		boolean wordCheck = MainSystem.banBlank(researchtitle);
-		if(wordCheck)
+		if(wordCheck==ERROR)
 		{
 			System.out.println("빈칸이 입력되었습니다.");
 			continue;
@@ -156,22 +158,22 @@ public class CreateResearchDB
 		int openYear = opendate[0];
 		int openMonth = opendate[1];
 		int openDay = opendate[2];
-		int year=0,month=0,day=0;
-		boolean sameTime = false;
+		int cloesYear=0,cloesMonth=0,cloesDay=0;
+		boolean sameTime = NO;
 		
 		System.out.println("(시작일 : "+openYear+"."+openMonth+"."+openDay+")");
 		
 		while(true)
 		{
 			System.out.print("Year");
-			year = MainSystem.selectInputSystem(2018, 2030);
-			if(year<openYear)
+			cloesYear = MainSystem.selectInputSystem(2018, 2030);
+			if(cloesYear<openYear)
 			{
 				System.out.println("시작년도 이후를 선택해주세요.");
 			}
-			else if(year==openYear)
+			else if(cloesYear==openYear)
 			{
-				sameTime = true;
+				sameTime = YES;
 				break;
 			}
 			else
@@ -182,17 +184,17 @@ public class CreateResearchDB
 		while(true)
 		{
 			System.out.print("Month");
-			month = MainSystem.selectInputSystem(1, 12);
+			cloesMonth = MainSystem.selectInputSystem(1, 12);
 			if(sameTime)
 			{
-				if(openMonth>month)
+				if(openMonth>cloesMonth)
 				{
 					System.out.println("시작일 이전입니다.");
 					continue;
 				}
-				else if(openMonth<month)
+				else if(openMonth<cloesMonth)
 				{
-					sameTime = false;
+					sameTime = NO;
 					break;
 				}
 				else
@@ -209,10 +211,10 @@ public class CreateResearchDB
 		while(true)
 		{
 			System.out.print("Day");
-			day = MainSystem.selectInputSystem(1, 31);
+			cloesDay = MainSystem.selectInputSystem(1, 31);
 			if(sameTime)
 			{
-				if(openDay>day)
+				if(openDay>cloesDay)
 				{
 					System.out.println("시작일 이전입니다.");
 				}
@@ -226,7 +228,7 @@ public class CreateResearchDB
 				break;
 			}
 		}
-		int[] closedate = {year,month,day};
+		int[] closedate = {cloesYear,cloesMonth,cloesDay};
 		return closedate;
 	}
 	

@@ -54,4 +54,10 @@ public class UnitQA
 	{
 		answer.set(questionNumber, unitAnswer);
 	}	
+	
+	public int getAnswerNumber(int index)
+	{
+		List<String> targetAnswer = answer.get(index);
+		return targetAnswer.size();
+	}
 }
