@@ -22,17 +22,17 @@ public class SubjectScoreCalculator
 		
 		List<Student> studentList = ssCal.fileOpen(path, fileName);		
 		
-		System.out.println("=====[ ÇĞ»ıº° Æò±Õ ]======");
+		System.out.println("=====[ í•™ìƒë³„ í‰ê·  ]======");
 		
 		ssCal.printAvg(studentList);
 		
-		System.out.println("=====[ ÇĞ»ı µî¼ö ]======");
+		System.out.println("=====[ í•™ìƒ ë“±ìˆ˜ ]======");
 		
 		ssCal.printRank(studentList);
 		
 		int subjectNumber = ssCal.getSubjectNumber(studentList);	
 		
-		System.out.println("=====[ °ú¸ñº° ÃÖ°í Á¡¼ö¿Í ÃÖ°í Á¡¼öÀÇ ÇĞ»ı ]======");
+		System.out.println("=====[ ê³¼ëª©ë³„ ìµœê³  ì ìˆ˜ì™€ ìµœê³  ì ìˆ˜ì˜ í•™ìƒ ]======");
 		
 		ssCal.printSubjectAvgAndTop(studentList, subjectNumber);
 		
@@ -81,7 +81,7 @@ public class SubjectScoreCalculator
 		}
 		catch(IOException e)
 		{
-			System.out.println("IOExceptionÀÌ ¹ß»ı");
+			System.out.println("IOExceptionì´ ë°œìƒ");
 		}
 		finally
 		{
@@ -91,7 +91,7 @@ public class SubjectScoreCalculator
 			}
 			catch(IOException e)
 			{
-				System.out.println("IOExceptionÀÌ ¹ß»ı");
+				System.out.println("IOExceptionì´ ë°œìƒ");
 			}
 		}
 		return studentList;		
@@ -103,7 +103,7 @@ public class SubjectScoreCalculator
 		{
 			String name = student.getName();
 			double avgScore = student.avgScore;
-			System.out.println(name+"ÀÇ Æò±ÕÁ¡¼ö´Â "+avgScore+"ÀÌ´Ù.");
+			System.out.println(name+"ì˜ í‰ê· ì ìˆ˜ëŠ” "+avgScore+"ì´ë‹¤.");
 		}
 	}
 
@@ -133,13 +133,13 @@ public class SubjectScoreCalculator
 			Student student = studentList.get(i);
 			String name = student.getName();
 			int rank = i+1;
-			System.out.println(name+"ÀÇ µî¼ö´Â "+rank+"µîÀÌ´Ù.");
+			System.out.println(name+"ì˜ ë“±ìˆ˜ëŠ” "+rank+"ë“±ì´ë‹¤.");
 		}
 	}
 	
 	public void printSubjectAvgAndTop(List<Student> studentList, int subjectNumber)
 	{
-		for(int i=0;i<subjectNumber;i++)	//°ú¸ñ¹øÈ£
+		for(int i=0;i<subjectNumber;i++)	//ê³¼ëª©ë²ˆí˜¸
 		{
 			int targetSubjectNumber = i+1;
 
@@ -147,10 +147,8 @@ public class SubjectScoreCalculator
 			int sumScore = 0;
 			int avgScore = 0;
 			int maxScore = 0;
-				
-
-			
-			for(int j=1;j<studentList.size();j++)	//ÇĞ»ı¹øÈ£
+							
+			for(int j=1;j<studentList.size();j++)	//í•™ìƒë²ˆí˜¸
 			{
 				if(j!=0)
 				{
@@ -174,8 +172,8 @@ public class SubjectScoreCalculator
 			
 			avgScore = sumScore/studentNumber;
 			
-			System.out.println(targetSubjectNumber+"¹øÂ° °ú¸ñÀÇ Æò±ÕÀº "+avgScore+"ÀÌ´Ù.");
-			System.out.print("ÃÖ°í µæÁ¡ÀÚ´Â ");
+			System.out.println(targetSubjectNumber+"ë²ˆì§¸ ê³¼ëª©ì˜ í‰ê· ì€ "+avgScore+"ì´ë‹¤.");
+			System.out.print("ìµœê³  ë“ì ìëŠ” ");
 			
 			for(Student student : studentList)
 			{
@@ -187,7 +185,7 @@ public class SubjectScoreCalculator
 				}
 			}
 			
-			System.out.print("ÀÌ´Ù.");		
+			System.out.print("ì´ë‹¤.");		
 			System.out.println("");
 			
 		}
