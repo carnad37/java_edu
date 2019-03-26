@@ -15,6 +15,45 @@ public class Test03
 {
 
 	public static void main(String[] args) {
+				
+		String target = "대상";	//주소값 하나
+		List<String> list = new ArrayList<String>();
+		
+		
+		
+		list.add("값");
+ 		
+//		w01 = new Work01();
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 //		String path = "D:\\HHS\\강의자료\\자바\\알고리즘\\00_실습\\text01.txt";
 //		File file = new File(path);
@@ -40,13 +79,13 @@ public class Test03
 //			
 //		}
 //		
-		String path = "D:\\HHS\\강의자료\\자바\\알고리즘\\00_실습\\text01.txt";
-		File file = new File(path);
-		BufferedWriter reader;
-		
-		try 
-		{
-			reader = new BufferedWriter(new FileWriter(file));
+//		String path = "D:\\HHS\\강의자료\\자바\\알고리즘\\00_실습\\text01.txt";
+//		File file = new File(path);
+//		BufferedWriter reader;
+//		
+//		try 
+//		{
+//			reader = new BufferedWriter(new FileWriter(file));
 
 //				String line = "";
 //				while((line=reader.readLine())!=null)
@@ -56,26 +95,26 @@ public class Test03
 //
 			
 //				}
-			List<String> list = new ArrayList<String>();
-			
-			list.add(path);
-			list.add("");
-			list.add("ㅇㅇㅇㅇ");
-			
-			for(String value : list)
-			{
-				reader.write(value);
-				reader.newLine();
-			}
-			
-			reader.close();
-		}
-		catch(IOException e)
-		{
-			
-		}
-		
-	
+//			List<String> list = new ArrayList<String>();
+//			
+//			list.add(path);
+//			list.add("");
+//			list.add("ㅇㅇㅇㅇ");
+//			
+//			for(String value : list)
+//			{
+//				reader.write(value);
+//				reader.newLine();
+//			}
+//			
+//			reader.close();
+//		}
+//		catch(IOException e)
+//		{
+//			
+//		}
+//		
+//	
 	}
 	
 	

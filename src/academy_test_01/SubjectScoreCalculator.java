@@ -17,16 +17,22 @@ public class SubjectScoreCalculator
 		
 		SubjectScoreCalculator ssCal = new SubjectScoreCalculator();
 			
-		String path = "D:\\HHS\\강의자료\\자바\\알고리즘\\00_실습\\";
+		String path = "D:\\workspace\\source_file\\";
 		String fileName = "subject_score.txt";
 		
-		List<Student> studentList = ssCal.fileOpen(path, fileName);
+		List<Student> studentList = ssCal.fileOpen(path, fileName);		
+		
+		System.out.println("=====[ 학생별 평균 ]======");
 		
 		ssCal.printAvg(studentList);
+		
+		System.out.println("=====[ 학생 등수 ]======");
 		
 		ssCal.printRank(studentList);
 		
 		int subjectNumber = ssCal.getSubjectNumber(studentList);	
+		
+		System.out.println("=====[ 과목별 최고 점수와 최고 점수의 학생 ]======");
 		
 		ssCal.printSubjectAvgAndTop(studentList, subjectNumber);
 		
@@ -116,10 +122,9 @@ public class SubjectScoreCalculator
 				
 				if(preStuScore<postStuScore)
 				{
-					Student saveSutdentData1 = preStudent;
-					Student saveSutdentData2 = postStudent;
-					studentList.set(i, saveSutdentData2);
-					studentList.set(j, saveSutdentData1);
+					studentList.set(i,postStudent);
+					studentList.set(j,preStudent);		
+					preStudent = postStudent;
 				}				
 			}
 		}
@@ -136,51 +141,55 @@ public class SubjectScoreCalculator
 	{
 		for(int i=0;i<subjectNumber;i++)	//과목번호
 		{
-			List<String> maxScoreStudent = new ArrayList<String>();
 			int targetSubjectNumber = i+1;
 
 			int studentNumber = studentList.size();
 			int sumScore = 0;
 			int avgScore = 0;
 			int maxScore = 0;
-			
-			Student fistStudent = studentList.get(0);
-			int firstScore = fistStudent.getTargetScore(i);
-			
-			sumScore = firstScore;
-			maxScore = firstScore;
+				
+
 			
 			for(int j=1;j<studentList.size();j++)	//학생번호
 			{
-				Student student = studentList.get(j);
-				int score = student.getTargetScore(i);
-				sumScore += score;
-				if(score>maxScore)
+				if(j!=0)
 				{
-				String name = student.getName();
-				maxScoreStudent.add(name);
-				maxScore = score;
-			}			
-			if(firstScore==maxScore)
-			{
-				String name = fistStudent.getName();
-				maxScoreStudent.add(name);
-			}
+					Student student = studentList.get(j);
+					int score = student.getTargetScore(i);
+					sumScore += score;
+					if(score>maxScore)
+					{
+					maxScore = score;
+					}
+				}
+				else
+				{
+					Student fistStudent = studentList.get(0);
+					int firstScore = fistStudent.getTargetScore(i);
+					sumScore = firstScore;
+					maxScore = firstScore;
+				}
 
+			}			
+			
 			avgScore = sumScore/studentNumber;
 			
 			System.out.println(targetSubjectNumber+"번째 과목의 평균은 "+avgScore+"이다.");
 			System.out.print("최고 득점자는 ");
 			
-			for(String name : maxScoreStudent)
+			for(Student student : studentList)
 			{
-				System.out.print("["+name+"] ");				
+				int score = student.getTargetScore(i);
+				if(score==maxScore)
+				{
+					String name = student.getName();
+					System.out.print("["+name+"] ");
+				}
 			}
 			
 			System.out.print("이다.");		
 			System.out.println("");
 			
-			}
 		}
-	}	
-}
+	}
+}	

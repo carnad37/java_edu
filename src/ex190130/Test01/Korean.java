@@ -9,9 +9,10 @@ public class Korean {
 	
 	//»ý¼ºÀÚ
 	public Korean()
-	{
-	
+	{	
+		
 	}
+	
 	public Korean(String name, String ssn)
 	{
 		this.name = name;
