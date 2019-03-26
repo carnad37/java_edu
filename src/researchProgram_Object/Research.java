@@ -1,5 +1,6 @@
 package researchProgram_Object;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Research
@@ -10,7 +11,7 @@ public class Research
 	private String questionNumber;
 	private String opendate;
 	private String closedate;
-	private UnitQA listQA = null;
+	private List<UnitQA> listQA = null;
 	
 	public Research(String pTitle, String pCustomer, String pSubject, String pQuestionNumber, String pOpendate, String pClosedate)
 	{
@@ -20,11 +21,12 @@ public class Research
 		questionNumber = pQuestionNumber;
 		opendate = pOpendate;
 		closedate = pClosedate;
+		listQA = new ArrayList<UnitQA>();
 	}
 	
-	public void setQA(UnitQA unitQA)
+	public void addQA(UnitQA unitQA)
 	{
-		this.listQA = unitQA;
+		listQA.add(unitQA);
 	}
 	
 	public void printResearchSummary()
@@ -39,33 +41,44 @@ public class Research
 	
 	public void printListQA()
 	{
-		if(listQA!=null)
+		if(listQA.isEmpty())
 		{
-			int questionNumber = getQuestionNumber();
-			for(int i=0;i<questionNumber;i++)
-			{
-				printUnitQA(listQA, i);
-			}
+			System.out.println("시스템 오류 : 질문과 답변의 데이터가 없습니다.");
 			return;
 		}
-		System.out.println("시스템 오류 : 질문과 답변의 데이터가 없습니다.");
+		for(UnitQA unitQA : listQA)
+		{
+			String question = unitQA.getQuestion();
+			System.out.println("질문 : "+question);
+			List<String> answer = unitQA.getAnswer();
+			int answerNumber = 1;
+			for(String unitAnswer : answer)
+			{
+				System.out.println("\t"+answerNumber+"."+unitAnswer);
+				answerNumber++;
+			}
+		}
 	}
 	
-	public void printQuestion(UnitQA listQA, int index)
+	public void printQuestion(List<UnitQA> listQA, int index)
 	{
 		int currentNumber = index+1;
-		String question = listQA.getQuestion(index);
+		UnitQA unitQA = listQA.get(index);
+		String question = unitQA.getQuestion();
 		System.out.println(currentNumber+"."+question);
-	}
+	}	
 	
-	public void printUnitQA(UnitQA listQA, int index)
+	
+	public void printUnitQA(List<UnitQA> listQA, int index)
 	{
 		printQuestion(listQA, index);
-		List<String> currentAnswer = listQA.getAnswer(index);
+		UnitQA unitQA = listQA.get(index);
+		List<String> currentAnswer = unitQA.getAnswer();
 		for(int j=0;j<currentAnswer.size();j++)
 		{
 			int answerNumber = j+1;
-			System.out.println("\t"+answerNumber+"."+currentAnswer.get(j));
+			String unitAnswer = currentAnswer.get(j);
+			System.out.println("\t"+answerNumber+"."+unitAnswer);
 		}
 	}
 	
@@ -100,7 +113,7 @@ public class Research
 		return closedate;
 	}
 	
-	public UnitQA getListQA()
+	public List<UnitQA> getListQA()
 	{
 		return listQA;
 	}

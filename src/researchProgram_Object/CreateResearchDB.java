@@ -63,7 +63,6 @@ public class CreateResearchDB
 			boolean wordCheck = MainSystem.banBlank(customer);
 			if(wordCheck==ERROR)
 			{
-				System.out.println("빈칸이 입력되었습니다.");
 				continue;
 			}
 			return customer;
@@ -82,7 +81,6 @@ public class CreateResearchDB
 		boolean wordCheck = MainSystem.banBlank(researchtitle);
 		if(wordCheck==ERROR)
 		{
-			System.out.println("빈칸이 입력되었습니다.");
 			continue;
 		}
 		for(String comparetitle : keySet)
@@ -205,7 +203,6 @@ public class CreateResearchDB
 			else
 			{
 				break;
-
 			}
 		}
 		while(true)

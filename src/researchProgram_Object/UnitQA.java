@@ -1,63 +1,99 @@
 package researchProgram_Object;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UnitQA
 {
 
-	private List<String> question = null;
-	private List<List<String>> answer = null;
+	private String question = null;
+	private List<String> answer = null;
 	
-	public UnitQA()
+	public UnitQA(String question, List<String> answer)
 	{
-		question = new ArrayList<String>();
-		answer = new ArrayList<List<String>>();
+		this.question = question;
+		this.answer = answer;
 	}	
-	
-	public void addQuestion(String unitQuestion)
+
+	public String getQuestion()
 	{
-		question.add(unitQuestion);
+		return question;
 	}
 	
-	public void addAnswer(List<String> unitAnswer)
+	public List<String> getAnswer()
+	{
+		return answer;
+	}
+	
+	public void printQA()
+	{
+		System.out.println("Q : "+question);
+		for(int i=0;i<answer.size();i++)
+		{
+			int aNumber = i+1;
+			String unitAnswer = answer.get(i);
+			System.out.println(aNumber+"."+unitAnswer);
+		}				
+	}
+	
+	public void addAnswer(String unitAnswer)
 	{
 		answer.add(unitAnswer);
 	}
 	
-	public void removeQuestion(String unitQuestion)
+	public void setAnswer(int index, String unitAnswer)
 	{
-		question.add(unitQuestion);
+		answer.set(index, unitAnswer);
 	}
 	
-	public void removeAnswer(List<String> unitAnswer)
+	public void setQuestion(String question)
 	{
-		answer.add(unitAnswer);
+		this.question = question;
 	}
 	
-	public String getQuestion(int index)
-	{
-		return question.get(index);
-	}
-	
-	public List<String> getAnswer(int index)
-	{
-		return answer.get(index);
-	}
-	
-	public void setQuestion(int questionNumber, String unitQuestion)
-	{
-		question.set(questionNumber, unitQuestion);
-	}
-	
-	public void setAnswer(int questionNumber, List<String> unitAnswer)
-	{
-		answer.set(questionNumber, unitAnswer);
-	}	
-	
-	public int getAnswerNumber(int index)
-	{
-		List<String> targetAnswer = answer.get(index);
-		return targetAnswer.size();
-	}
+//	
+//	public void addQuestion(String unitQuestion)
+//	{
+//		question.add(unitQuestion);
+//	}
+//	
+//	public void addAnswer(List<String> unitAnswer)
+//	{
+//		answer.add(unitAnswer);
+//	}
+//	
+//	public void removeQuestion(String unitQuestion)
+//	{
+//		question.add(unitQuestion);
+//	}
+//	
+//	public void removeAnswer(List<String> unitAnswer)
+//	{
+//		answer.add(unitAnswer);
+//	}
+//	
+//	public String getQuestion(int index)
+//	{
+//		return question.get(index);
+//	}
+//	
+//	public List<String> getAnswer(int index)
+//	{
+//		return answer.get(index);
+//	}
+//	
+//	public void setQuestion(int questionNumber, String unitQuestion)
+//	{
+//		question.set(questionNumber, unitQuestion);
+//	}
+//	
+//	public void setAnswer(int questionNumber, List<String> unitAnswer)
+//	{
+//		answer.set(questionNumber, unitAnswer);
+//	}	
+//	
+//	public int getAnswerNumber(int index)
+//	{
+//		List<String> targetAnswer = answer.get(index);
+//		return targetAnswer.size();
+//	}
 }

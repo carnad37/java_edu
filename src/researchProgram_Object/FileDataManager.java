@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class FileDataManager
 {
-	private List<String> setRawData(String path, String subPath)
+	private List<String> setFileData(String path, String subPath)
 	{
 		String fullPath = path+subPath;
+		
 		FileOpen fileopen = new FileOpen();
 		List<String> result = fileopen.openSystem(fullPath);
 		return result;		
@@ -18,57 +20,51 @@ public class FileDataManager
 
 	public Map<String,Research> setDBMap(String path)
 	{
-		List<String> rawData = setRawData(path,"researchDB.txt");
+		List<String> dbData = setFileData(path,"researchDB.txt");
 		
 		Map<String,Research> dataBaseMap = new HashMap<String,Research>();
 		
-		for(String data : rawData)
+		for(String data : dbData)
 		{
-			StringTokenizer rawToken = new StringTokenizer(data,",");
-			String title = rawToken.nextToken();
-			String customer = rawToken.nextToken();
-			String subject = rawToken.nextToken();
-			String questionNumber = rawToken.nextToken();
-			String opendate = rawToken.nextToken();
-			String closedate = rawToken.nextToken();
+			StringTokenizer dbDataToken = new StringTokenizer(data,",");
+			String title = dbDataToken.nextToken();
+			String customer = dbDataToken.nextToken();
+			String subject = dbDataToken.nextToken();
+			String questionNumber = dbDataToken.nextToken();
+			String opendate = dbDataToken.nextToken();
+			String closedate = dbDataToken.nextToken();
 			Research research = new Research(title, customer, subject, questionNumber, opendate, closedate);
 			dataBaseMap.put(title, research);
 		}
 		return dataBaseMap;
 	}
-	
-//	public void saveAllResearchData(Map<String, Research> researchDB, List<String> regiserTitle, String mainPath)
-//	{
-//		String subPath = "researchData.txt";
-//		String path = mainPath+subPath;
-//		List<String> saveList = new ArrayList<String>();
-//		
-//		for(String title : regiserTitle)
-//		{
-//			Research targetResearch = researchDB.get(title);
-//			String researchStringData = researchToString(targetResearch);			
-//			saveList.add(researchStringData);
-//		}		
-//		saveToTxt(saveList, path);	
-//	}
-	
-	public void saveAllResearchData(Map<String, Research> researchDB, List<String> regiserTitle, String mainPath)
+
+	public void saveAllResearchData(Map<String, Research> researchDB, String mainPath)
 	{
 		String subPath = "researchData.txt";
 		String path = mainPath+subPath;
+
 		List<String> saveList = new ArrayList<String>();
 		
-		for(String title : regiserTitle)
+		Set<String> titleSet = researchDB.keySet();		
+		for(String title : titleSet)
 		{
-			saveList.add(title);	//타이틀입력
 			Research research = researchDB.get(title);
+			List<UnitQA> listQA = research.getListQA();
+			if(listQA.isEmpty())
+			{
+				continue;
+			}
+			saveList.add(title);	//타이틀입력
+
 			int questionNumber = research.getQuestionNumber();
-			UnitQA listQA = research.getListQA();
 			for(int i=0;i<questionNumber;i++)
 			{
-				String question = listQA.getQuestion(i);
+				UnitQA unitQA = listQA.get(i);
+				String question = unitQA.getQuestion();
+				
 				saveList.add(question);
-				List<String> answer = listQA.getAnswer(i);
+				List<String> answer = unitQA.getAnswer();
 				for(String unitAnswer : answer)
 				{
 					saveList.add(unitAnswer);
@@ -77,33 +73,6 @@ public class FileDataManager
 			}
 		}				
 		saveToTxt(saveList, path);	
-	}
-	
-	public void saveResearchData(Research research, String mainPath)
-	{
-		String subPath = "researchData.txt";
-		String path = mainPath+subPath;
-		List<String> rawResearchData= setRawData(mainPath, subPath);
-		
-		String researchStringData = researchToString(research);
-		
-		rawResearchData.add(researchStringData);
-		
-		saveToTxt(rawResearchData, path);
-	}
-
-	
-	private String researchToString(Research research)
-	{
-		String targetTitle = research.getTitle();
-		int targetQuestionNumber = research.getQuestionNumber();
-		UnitQA targetUnitQA = research.getListQA();
-	
-		String researchStringData = targetTitle;
-		String stringQA = makeQA(targetQuestionNumber, targetUnitQA);
-		researchStringData += stringQA;
-	
-		return researchStringData;
 	}
 	
 	private void saveToTxt(List<String> list, String path)
@@ -118,7 +87,7 @@ public class FileDataManager
 		String subPath = "researchDB.txt";
 		String path = mainPath+subPath;
 		
-		List<String> researchDB = setRawData(mainPath, subPath);
+		List<String> researchDB = setFileData(mainPath, subPath);
 		
 		researchDB.add(lineData);
 		
@@ -133,81 +102,55 @@ public class FileDataManager
 		String qNumber = String.valueOf(research.getQuestionNumber());
 		String opendate = research.getOpendate();
 		String closedate = research.getClosedate();
-		String rawData = title+","+customer+","+subject+","+qNumber+","+opendate+","+closedate;
-		return rawData;
-	}
+		String lineDBData = title+","+customer+","+subject+","+qNumber+","+opendate+","+closedate;
+		return lineDBData;
+	}	
 	
 	public void setData(Map<String,Research> researchDB, String path)
 	{
 		String subPath = "researchData.txt";
-		List<String> rawData = setRawData(path, subPath);
-				
-		for(String data : rawData)
-		{
-			StringTokenizer rawDataToken = new StringTokenizer(data, "@@");
+		List<String> researchData = setFileData(path, subPath);
 			
-			String key = rawDataToken.nextToken();	//설문조사명
+		int i = 0;
+		for(i=0;i<researchData.size();i++)
+		{
+			String title = researchData.get(i);
+			i++;
 			
-			//이후 토큰하나당 문제가 하나씩 담김
-			UnitQA listQA = new UnitQA();
-			setListQA(rawDataToken, listQA);
-			Research targetResearch = researchDB.get(key);
-			targetResearch.setQA(listQA);
-		}
-	}	
-	
-	private void setListQA(StringTokenizer rawDataToken, UnitQA unitQA)
-	{
-		while(rawDataToken.hasMoreTokens())
-		{
-			String stringQA = rawDataToken.nextToken();
-			apartQA(stringQA, unitQA);			
-		}
-	}
-	
-	private void apartQA(String stringQA, UnitQA unitQA)
-	{
-		StringTokenizer stringQAToken = new StringTokenizer(stringQA, ",,");		
-		String question = stringQAToken.nextToken();
-		
-		List<String> answer = new ArrayList<String>();
-		while(stringQAToken.hasMoreTokens())
-		{
-			answer.add(stringQAToken.nextToken());
-		}
-		
-		unitQA.addQuestion(question);
-		unitQA.addAnswer(answer);
-	}
-	
-	private String makeQA(int questionNumber, UnitQA listQA)
-	{
-		String stringQA = "";
-		for(int i=0;i<questionNumber;i++)
-		{
-			stringQA += "@@"+listQA.getQuestion(i);
-			List<String> answer = listQA.getAnswer(i);
-			for(String unitAnswer : answer)
+			Research research = researchDB.get(title);
+			List<UnitQA> listQA = research.getListQA();
+			
+			int blankCount = 0;
+			int questionNumber = research.getQuestionNumber();
+			while(true)	//답변
 			{
-				stringQA += ",,"+unitAnswer;
-			}
+				String question = researchData.get(i);	//질문
+				i++;
+				
+				List<String> answer = new ArrayList<String>();	//답변
+				
+				while(true)
+				{
+					String unitAnswer = researchData.get(i);
+					i++;
+					
+					if(unitAnswer.equals(""))
+					{
+						blankCount++;
+						break;
+					}
+					answer.add(unitAnswer);
+				}
+				
+				UnitQA unitQA = new UnitQA(question, answer);
+				listQA.add(unitQA);
+				
+				if(blankCount==questionNumber)
+				{
+					i--;	//135에서 이미 ++해줬으므로 한번 빼준다.
+					break;
+				}
+			}						
 		}
-		return stringQA;
-	}
-	
-//	public boolean wordCheckerQA(String word)
-//	{
-//		boolean wordCheck = MainSystem.wordChecker(word, ",,");
-//		if(MainSystem.ERROR==wordCheck)
-//		{
-//			return false;
-//		}
-//		wordCheck = MainSystem.wordChecker(word, "@@");
-//		if(MainSystem.ERROR==wordCheck)
-//		{
-//			return false;
-//		}
-//		return true;
-//	}
-	
+	}		
 }

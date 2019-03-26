@@ -34,7 +34,7 @@ public class MainSystem
 			System.out.println("4. 설문조사 실행※준비중");
 			System.out.println("5. 종료");
 			System.out.println("=======================================");
-			int select = selectInputSystem(1,4);
+			int select = selectInputSystem(1,5);
 			boolean exitFlag = distributeSevice(select,researchDB,mainPath);
 			if(exitFlag==YES)
 			{

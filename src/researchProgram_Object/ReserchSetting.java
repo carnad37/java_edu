@@ -74,11 +74,11 @@ public class ReserchSetting
 			int targetQuestionNumber = targetResearch.getQuestionNumber();	//최대 질문수
 			
 			int answerStartNumber = 1;
-			UnitQA listQA = makeQA(targetQuestionNumber, answerStartNumber, mainPath);	//	
-			targetResearch.setQA(listQA);
+			List<UnitQA> targetListQA = targetResearch.getListQA();
+			makeQA(targetListQA, targetQuestionNumber, answerStartNumber, mainPath);	//	
 			
 			FileDataManager setValue = new FileDataManager();
-			setValue.saveResearchData(targetResearch, mainPath);
+			setValue.saveAllResearchData(researchDB, mainPath);
 		}
 		else
 		{
@@ -93,9 +93,9 @@ public class ReserchSetting
 		for(String key : dbKey)
 		{
 			Research currentResearch = researchDB.get(key);
-			UnitQA currentQA = currentResearch.getListQA();
+			List<UnitQA> currentQA = currentResearch.getListQA();
 			boolean checkRegister;
-			if(currentQA==null)
+			if(currentQA.isEmpty())
 			{
 				checkRegister=ERROR;
 			}
@@ -121,15 +121,15 @@ public class ReserchSetting
 		Research targetResearch = researchDB.get(targetTitle);
 		//수정하고싶은 설문 선택.
 		System.out.println("=======================================");
-		UnitQA targetQA = targetResearch.getListQA();
+		List<UnitQA> targetListQA = targetResearch.getListQA();
 		int targetQuestionNumber = targetResearch.getQuestionNumber();
 		for(int i=0;i<targetQuestionNumber;i++)
 		{
-			targetResearch.printQuestion(targetQA, i);
+			targetResearch.printQuestion(targetListQA, i);
 		}
 		System.out.println("=======================================");
 		
-		UnitQA listQA = null;
+		List<UnitQA> listQA = targetResearch.getListQA();
 		int selectQuestionNumber = 0;
 		
 		while(true)
@@ -137,7 +137,6 @@ public class ReserchSetting
 			System.out.println("수정하고싶은 질문 번호를 입력해주세요.");
 			selectQuestionNumber = MainSystem.selectInputSystem(1, targetQuestionNumber);
 			selectQuestionNumber--;
-			listQA = targetResearch.getListQA();
 			targetResearch.printUnitQA(listQA, selectQuestionNumber);
 			System.out.println("선택하신 질문이 맞으십니까?");
 			boolean answer = MainSystem.setAnswer();
@@ -164,7 +163,7 @@ public class ReserchSetting
 			System.out.println("수정을 끝내시겠습니까?");
 			FileDataManager setValue = new FileDataManager();
 			
-			setValue.saveAllResearchData(researchDB, rawRegiserTitle, mainPath);
+			setValue.saveAllResearchData(researchDB, mainPath);
 			
 			boolean answer = MainSystem.setAnswer();
 			if(answer==YES)
@@ -174,34 +173,37 @@ public class ReserchSetting
 		}
 	}	
 
-	private void addData(String mainPath, int selectQuestionNumber, UnitQA listQA)
+	private void addData(String mainPath, int selectQuestionNumber, List<UnitQA> listQA)
 	{
 		System.out.println("추가할 답변을 입력해주세요");
 		FileDataManager setValue = new FileDataManager();
 		
-		List<String> currentAnswer = listQA.getAnswer(selectQuestionNumber);
+		UnitQA unitQA = listQA.get(selectQuestionNumber);
+		List<String> currentAnswer = unitQA.getAnswer();
 		
 		int answerStartNumber = currentAnswer.size()+1;
 		makeAnswer(answerStartNumber, currentAnswer, setValue);
 		
-		listQA.setAnswer(selectQuestionNumber, currentAnswer);
+//		unitQA.setAnswer(selectQuestionNumber, currentAnswer);
 	}
 	
-	private void resetData(String mainPath, int selectQuestionNumber, UnitQA listQA)
+	private void resetData(String mainPath, int selectQuestionNumber, List<UnitQA> listQA)
 	{
 		System.out.println("수정하시고 싶은 내역을 선택해주세요.");
-		String question = listQA.getQuestion(selectQuestionNumber);
+		UnitQA unitQA = listQA.get(selectQuestionNumber);
+
+		String question = unitQA.getQuestion();
 		System.out.println("1."+question);
-		List<String> currentAnswer = listQA.getAnswer(selectQuestionNumber);
-		for(int i=1;i<currentAnswer.size();i++)
+		List<String> currentAnswer = unitQA.getAnswer();
+		for(int i=0;i<currentAnswer.size();i++)
 		{
-			int number = i+1;
+			int number = i+2;	//+문제수(1개)+인덱스(+1)
 			String data = currentAnswer.get(i);
 			System.out.println(number+"."+data);
 		}
 		int selectSize = currentAnswer.size();
 		int select = MainSystem.selectInputSystem(1, selectSize);
-		select--;
+		select--;	//문제수(-1)
 		
 		String newData = null;
 		while(true)
@@ -220,13 +222,13 @@ public class ReserchSetting
 		//1이상이면 answer로.
 		if(select==QUESTION_TITLE)
 		{
-			listQA.setQuestion(selectQuestionNumber, newData);
+			unitQA.setQuestion(newData);
 		}
 		else
 		{
-			select--;
+			select--;	//인덱스(-1)
 			currentAnswer.set(select, newData);
-			listQA.setAnswer(selectQuestionNumber,currentAnswer);
+//			unitQA.setAnswer(selectQuestionNumber,currentAnswer);
 		}
 	}
 
@@ -243,9 +245,8 @@ public class ReserchSetting
 	}
 	
 	
-	public UnitQA makeQA(int questionNumber, int startNumber, String mainPath)
+	public void makeQA(List<UnitQA> listQA, int questionNumber, int startNumber, String mainPath)
 	{
-		UnitQA unitQA = new UnitQA();
 		System.out.println("=======================================");
 		System.out.println("질문과 답변 등록을 시작합니다.");
 		System.out.println("=======================================");
@@ -253,13 +254,12 @@ public class ReserchSetting
 		for(int i=1;i<=questionNumber;i++)
 		{
 			String newQuestion = makeQuestion(i,setValue);
-			unitQA.addQuestion(newQuestion);
 			
 			List<String> newAnswer = new ArrayList<String>();
 			makeAnswer(startNumber, newAnswer,setValue);
-			unitQA.addAnswer(newAnswer);
+			UnitQA unitQA = new UnitQA(newQuestion, newAnswer);
+			listQA.add(unitQA);
 		}
-		return unitQA;
 	}
 	
 	private String makeQuestion(int index, FileDataManager setValue)
