@@ -123,7 +123,8 @@ public class SubjectScoreCalculator
 				if(preStuScore<postStuScore)
 				{
 					studentList.set(i,postStudent);
-					studentList.set(j,preStudent);		
+					studentList.set(j,preStudent);	
+					preStuScore = postStuScore;
 					preStudent = postStudent;
 				}				
 			}
