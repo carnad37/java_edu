@@ -15,11 +15,11 @@ public class CreateResearchDB
 		while(true)
 		{			
 			System.out.println("=======================================");
-			System.out.println("¼³¹®Á¶»ç µî·ÏÀ» ÁøÇàÇØÁÖ¼¼¿ä.");
+			System.out.println("ì„¤ë¬¸ì¡°ì‚¬ ë“±ë¡ì„ ì§„í–‰í•´ì£¼ì„¸ìš”.");
 			System.out.println("=======================================");
 			Research research = setResearchData(researchDB);
 			research.printResearchSummary();
-			System.out.println("À§ ³»¿ë´ë·Î ÀÔ·ÂÇÏ½Ã°Ú½À´Ï±î?");
+			System.out.println("ìœ„ ë‚´ìš©ëŒ€ë¡œ ì…ë ¥í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
 			boolean answer = MainSystem.setAnswer();
 			if(answer==YES)
 			{
@@ -29,14 +29,14 @@ public class CreateResearchDB
 				setValue.saveDataToDB(research, mainPath);
 				return;
 			}
-			System.out.println("´Ù½Ã ÀÔ·ÂÇÏ½Ã°Ú½À´Ï±î?");
+			System.out.println("ë‹¤ì‹œ ì…ë ¥í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
 			answer = MainSystem.setAnswer();
 			if(answer==NO)
 			{
 				return;
 			}
 		}
-	}	
+	}
 		
 	private Research setResearchData(Map<String,Research> researchDB)
 	{
@@ -55,13 +55,13 @@ public class CreateResearchDB
 
 	private String setCustomer()
 	{
-		System.out.println("ÀÇ·ÚÃ³¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+		System.out.println("ì˜ë¢°ì²˜ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 		while(true)
 		{
 			System.out.print(">");
 			String customer = MainSystem.scan.nextLine();
 			boolean wordCheck = MainSystem.banBlank(customer);
-			if(wordCheck==ERROR)
+			if(wordCheck == ERROR)
 			{
 				continue;
 			}
@@ -72,14 +72,14 @@ public class CreateResearchDB
 	private String setResearchtitle(Set<String> keySet)
 	{
 		String researchtitle=null;
-		System.out.println("¼³¹®Á¶»çÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+		System.out.println("ì„¤ë¬¸ì¡°ì‚¬ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 		mainLoop:
 		while(true)
 		{			
-		System.out.print(">");
-		researchtitle = MainSystem.scan.nextLine();
-		boolean wordCheck = MainSystem.banBlank(researchtitle);
-		if(wordCheck==ERROR)
+			System.out.print(">");
+			researchtitle = MainSystem.scan.nextLine();
+			boolean wordCheck = MainSystem.banBlank(researchtitle);
+			if(wordCheck == ERROR)
 		{
 			continue;
 		}
@@ -87,8 +87,8 @@ public class CreateResearchDB
 		{
 			if(comparetitle.equals(researchtitle))
 			{
-				System.out.println("ÀÌ¹Ì µî·ÏµÈ ¼³¹®Á¶»çÀÔ´Ï´Ù.");
-				System.out.println("´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				System.out.println("ì´ë¯¸ ë“±ë¡ëœ ì„¤ë¬¸ì¡°ì‚¬ì…ë‹ˆë‹¤.");
+				System.out.println("ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				continue mainLoop;
 			}
 		}
@@ -98,40 +98,41 @@ public class CreateResearchDB
 	
 	private String setResearchSubject()
 	{
-		System.out.println("¼³¹®Á¶»ç ºĞ¾ß¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä.");
+		System.out.println("ì„¤ë¬¸ì¡°ì‚¬ ë¶„ì•¼ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.");
 		System.out.println("---------------------------------------");
-		System.out.println("1. ÀÎ¹®");
-		System.out.println("2. »çÈ¸");
-		System.out.println("3. °úÇĞ");
-		System.out.println("4. ³ó¾÷");
-		System.out.println("5. °æÁ¦");
+		System.out.println("1. ì¸ë¬¸");
+		System.out.println("2. ì‚¬íšŒ");
+		System.out.println("3. ê³¼í•™");
+		System.out.println("4. ë†ì—…");
+		System.out.println("5. ê²½ì œ");
 		System.out.println("---------------------------------------");
 		int select = MainSystem.selectInputSystem(1, 5);
 		String researchSubject = null;
 		switch(select)
 		{
 			case 1:
-				researchSubject = "ÀÎ¹®";
+				researchSubject = "ì¸ë¬¸";
 				break;
 			case 2:
-				researchSubject = "»çÈ¸";
+				researchSubject = "ì‚¬íšŒ";
 				break;
 			case 3:
-				researchSubject = "°úÇĞ";
+				researchSubject = "ê³¼í•™";
 				break;
 			case 4:
-				researchSubject = "³ó¾÷";
+				researchSubject = "ë†ì—…";
 				break;
 			case 5:
-				researchSubject = "°æÁ¦";
+				researchSubject = "ê²½ì œ";
 				break;
+				//
 		}
 		return researchSubject;
 	}
 	
 	private int setQuestionNumber()
 	{
-		System.out.println("Áú¹®ÀÇ °¹¼ö¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+		System.out.println("ì§ˆë¬¸ì˜ ê°¯ìˆ˜ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 		int qNumber = MainSystem.selectInputSystem(1, 500);
 
 		return qNumber;
@@ -139,7 +140,7 @@ public class CreateResearchDB
 
 	private int[] setOpendate()
 	{
-		System.out.println("Á¶»ç ½ÃÀÛÀÏÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+		System.out.println("ì¡°ì‚¬ ì‹œì‘ì¼ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 		System.out.print("Year");
 		int year = MainSystem.selectInputSystem(2018, 2030);
 		System.out.print("Month");
@@ -152,14 +153,14 @@ public class CreateResearchDB
 	
 	private int[] setClosedate(int[] opendate)
 	{
-		System.out.println("Á¶»ç ¸¶°¨ÀÏÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+		System.out.println("ì¡°ì‚¬ ë§ˆê°ì¼ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 		int openYear = opendate[0];
 		int openMonth = opendate[1];
 		int openDay = opendate[2];
-		int cloesYear=0,cloesMonth=0,cloesDay=0;
+		int cloesYear =0,cloesMonth =0,cloesDay =0;
 		boolean sameTime = NO;
 		
-		System.out.println("(½ÃÀÛÀÏ : "+openYear+"."+openMonth+"."+openDay+")");
+		System.out.println("(ì‹œì‘ì¼ : "+openYear+"."+openMonth+"."+openDay+")");
 		
 		while(true)
 		{
@@ -167,9 +168,9 @@ public class CreateResearchDB
 			cloesYear = MainSystem.selectInputSystem(2018, 2030);
 			if(cloesYear<openYear)
 			{
-				System.out.println("½ÃÀÛ³âµµ ÀÌÈÄ¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä.");
+				System.out.println("ì‹œì‘ë…„ë„ ì´í›„ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.");
 			}
-			else if(cloesYear==openYear)
+			else if(cloesYear == openYear)
 			{
 				sameTime = YES;
 				break;
@@ -187,7 +188,7 @@ public class CreateResearchDB
 			{
 				if(openMonth>cloesMonth)
 				{
-					System.out.println("½ÃÀÛÀÏ ÀÌÀüÀÔ´Ï´Ù.");
+					System.out.println("ì‹œì‘ì¼ ì´ì „ì…ë‹ˆë‹¤.");
 					continue;
 				}
 				else if(openMonth<cloesMonth)
@@ -213,7 +214,7 @@ public class CreateResearchDB
 			{
 				if(openDay>cloesDay)
 				{
-					System.out.println("½ÃÀÛÀÏ ÀÌÀüÀÔ´Ï´Ù.");
+					System.out.println("ì‹œì‘ì¼ ì´ì „ì…ë‹ˆë‹¤.");
 				}
 				else
 				{
