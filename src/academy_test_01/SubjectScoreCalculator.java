@@ -11,29 +11,36 @@ import java.util.StringTokenizer;
 public class SubjectScoreCalculator
 {
 	
+	final static int FIRST = 0;
+	final static boolean ERROR = false;
+
 	//renige31@naver.com
 
 	public static void main(String[] args) {
 		
 		SubjectScoreCalculator ssCal = new SubjectScoreCalculator();
 			
-		String path = "D:\\workspace\\source_file\\";
+		String path = "D:\\HHS\\°­ÀÇÀÚ·á\\ÀÚ¹Ù\\¾Ë°í¸®Áò\\00_½Ç½À\\";
 		String fileName = "subject_score.txt";
 		
-		List<Student> studentList = ssCal.fileOpen(path, fileName);		
+		List<Student> studentList = new ArrayList<Student>();
+		boolean fileOpenErrorFlag = ssCal.fileOpen(studentList, path, fileName);				
+		if (fileOpenErrorFlag==ERROR)
+		{
+			System.out.println("ÆÄÀÏ·Îµå¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+			return;
+		}
 		
-		System.out.println("=====[ í•™ìƒë³„ í‰ê·  ]======");
-		
+		System.out.println("=====[ ÇĞ»ıº° Æò±Õ ]======");		
 		ssCal.printAvg(studentList);
-		
-		System.out.println("=====[ í•™ìƒ ë“±ìˆ˜ ]======");
-		
+		System.out.println();
+
+		System.out.println("=====[ ÇĞ»ı µî¼ö ]======");		
 		ssCal.printRank(studentList);
-		
-		int subjectNumber = ssCal.getSubjectNumber(studentList);	
-		
-		System.out.println("=====[ ê³¼ëª©ë³„ ìµœê³  ì ìˆ˜ì™€ ìµœê³  ì ìˆ˜ì˜ í•™ìƒ ]======");
-		
+		System.out.println();
+
+		int subjectNumber = ssCal.getSubjectNumber(studentList);			
+		System.out.println("=====[ °ú¸ñº° ÃÖ°í Á¡¼ö¿Í ÃÖ°í Á¡¼öÀÇ ÇĞ»ı ]======");		
 		ssCal.printSubjectAvgAndTop(studentList, subjectNumber);
 		
 				
@@ -48,22 +55,19 @@ public class SubjectScoreCalculator
 	}
 	
 
-	public List<Student> fileOpen(String path, String fileName)
-	{
-		List<Student> studentList = new ArrayList<Student>();
-		
-		String fullpath = path+fileName;
+	public boolean fileOpen(List<Student> studentList, String path, String fileName)
+	{		
+		String fullpath = path+fileName;	
 		
 		File file = null;
-		BufferedReader bfReader = null;
-		
+		BufferedReader bfReader = null;		
 		try
 		{
 			file = new File(fullpath);
 			bfReader = new BufferedReader(new FileReader(file));
 			
 			String line = "";
-			while((line=bfReader.readLine())!=null)
+			while ((line=bfReader.readLine()) != null)
 			{
 				List<Integer> scoreList = new ArrayList<Integer>();
 				StringTokenizer lineToken = new StringTokenizer(line, " ");
@@ -79,48 +83,53 @@ public class SubjectScoreCalculator
 			}
 			
 		}
-		catch(IOException e)
+		catch (IOException e)
 		{
-			System.out.println("IOExceptionì´ ë°œìƒ");
+			System.out.println("IOExceptionÀÌ ¹ß»ı");
+			return false;
 		}
 		finally
 		{
 			try
 			{
-				bfReader.close();
+				if (bfReader != null)
+				{
+					bfReader.close();
+				}
 			}
 			catch(IOException e)
 			{
-				System.out.println("IOExceptionì´ ë°œìƒ");
+				System.out.println("IOExceptionÀÌ ¹ß»ı");
+				return false;
+
 			}
 		}
-		return studentList;		
+		return true;
 	}
 	
 	public void printAvg(List<Student> studentList)
 	{
-		for(Student student : studentList)
+		for (Student student : studentList)
 		{
 			String name = student.getName();
 			double avgScore = student.avgScore;
-			System.out.println(name+"ì˜ í‰ê· ì ìˆ˜ëŠ” "+avgScore+"ì´ë‹¤.");
+			System.out.println(name + "ÀÇ Æò±ÕÁ¡¼ö´Â " + avgScore + "ÀÌ´Ù.");
 		}
 	}
-
 	
 	public void printRank(List<Student> studentList)
 	{
-		for(int i=0;i<studentList.size()-1;i++)
+		for(int i=0; i<studentList.size()-1; i++)
 		{
 			Student preStudent = studentList.get(i);
 			int preStuScore = preStudent.sumScore;
 			
-			for(int j=i+1;j<studentList.size();j++)
+			for (int j=i+1; j<studentList.size(); j++)
 			{
 				Student postStudent = studentList.get(j);
 				int postStuScore = postStudent.sumScore;
 				
-				if(preStuScore<postStuScore)
+				if (preStuScore < postStuScore)
 				{
 					studentList.set(i,postStudent);
 					studentList.set(j,preStudent);	
@@ -129,18 +138,18 @@ public class SubjectScoreCalculator
 				}				
 			}
 		}
-		for(int i=0;i<studentList.size();i++)
+		for (int i=0; i<studentList.size(); i++)
 		{
 			Student student = studentList.get(i);
 			String name = student.getName();
 			int rank = i+1;
-			System.out.println(name+"ì˜ ë“±ìˆ˜ëŠ” "+rank+"ë“±ì´ë‹¤.");
+			System.out.println(name+"ÀÇ µî¼ö´Â "+rank+"µîÀÌ´Ù.");
 		}
 	}
 	
 	public void printSubjectAvgAndTop(List<Student> studentList, int subjectNumber)
 	{
-		for(int i=0;i<subjectNumber;i++)	//ê³¼ëª©ë²ˆí˜¸
+		for (int i=0; i<subjectNumber; i++)	//°ú¸ñ¹øÈ£
 		{
 			int targetSubjectNumber = i+1;
 
@@ -149,9 +158,9 @@ public class SubjectScoreCalculator
 			int avgScore = 0;
 			int maxScore = 0;
 							
-			for(int j=1;j<studentList.size();j++)	//í•™ìƒë²ˆí˜¸
+			for(int j=0; j<studentList.size(); j++)	//ÇĞ»ı¹øÈ£
 			{
-				if(j!=0)
+				if (j!=FIRST)
 				{
 					Student student = studentList.get(j);
 					int score = student.getTargetScore(i);
@@ -161,7 +170,7 @@ public class SubjectScoreCalculator
 					maxScore = score;
 					}
 				}
-				else
+				else if (j==FIRST)
 				{
 					Student fistStudent = studentList.get(0);
 					int firstScore = fistStudent.getTargetScore(i);
@@ -170,25 +179,21 @@ public class SubjectScoreCalculator
 				}
 
 			}			
+			avgScore = sumScore/studentNumber;			
+			System.out.println(targetSubjectNumber+"¹øÂ° °ú¸ñÀÇ Æò±ÕÀº "+avgScore+"ÀÌ´Ù.");
 			
-			avgScore = sumScore/studentNumber;
-			
-			System.out.println(targetSubjectNumber+"ë²ˆì§¸ ê³¼ëª©ì˜ í‰ê· ì€ "+avgScore+"ì´ë‹¤.");
-			System.out.print("ìµœê³  ë“ì ìëŠ” ");
-			
+			System.out.print("ÃÖ°í µæÁ¡ÀÚ´Â ");			
 			for(Student student : studentList)
 			{
 				int score = student.getTargetScore(i);
-				if(score==maxScore)
+				if(score == maxScore)
 				{
 					String name = student.getName();
 					System.out.print("["+name+"] ");
 				}
-			}
-			
-			System.out.print("ì´ë‹¤.");		
-			System.out.println("");
-			
+			}			
+			System.out.print("ÀÌ´Ù.");		
+			System.out.println("");			
 		}
 	}
 }	

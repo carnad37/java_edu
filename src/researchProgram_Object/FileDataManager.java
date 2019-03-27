@@ -122,14 +122,14 @@ public class FileDataManager
 			
 			int blankCount = 0;
 			int questionNumber = research.getQuestionNumber();
-			while(true)	//답변
+			while (true)	//답변
 			{
 				String question = researchData.get(i);	//질문
 				i++;
 				
 				List<String> answer = new ArrayList<String>();	//답변
 				
-				while(true)
+				while (true)
 				{
 					String unitAnswer = researchData.get(i);
 					i++;

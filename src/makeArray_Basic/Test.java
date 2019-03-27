@@ -1,4 +1,4 @@
-package makeArray_SizeControl;
+package makeArray_Basic;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,8 +14,8 @@ import java.util.Set;
 //}
 
 public class Test {
-	public static void main(String[] args) 
-	{
+	
+	public static void main(String[] args) {
 //		
 //		UP up = new UP();
 //		Test ts = (Test)up;
@@ -39,29 +39,14 @@ public class Test {
 //	
 //	bb.next();
 //	bb.next();
-//	
 
-//		Object[] obj = new Object[10];
-//		obj[0] = 1;
-//		obj[1] = "2¿‘¥œ¥Ÿ";
-//		
-//		System.out.println(obj[0]);
-//		System.out.println(obj[1]);
+		double a = 1.251151892351111;
+		a = a*10;
+		a = Math.round(a);
+		a = a/10;
 		
-//		int a = 1;
-//		Integer ab = a;
-//		System.out.println(ab.hashCode());
-//		String aa = "key";
-//		System.out.println(aa.hashCode());
-//		String bb = "keyasaasgashdaqdfasfsf3";
-//		System.out.println(bb.hashCode());
-//		
-//		Object[] obj = new Object[10];
-//		List<String> dd= new ArrayList<String>();
-//		obj[0] = dd;
-
-		
-		
+		System.out.println(a);
+	
 	}
 	
 

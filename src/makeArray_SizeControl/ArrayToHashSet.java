@@ -2,17 +2,19 @@ package makeArray_SizeControl;
 
 import java.util.Iterator;
 
-public class ArrayToSet
+
+public class ArrayToHashSet
 {
+//	private final static boolean PASS = true;
 	private final static int EMPTY = 0;
 	private static final int ARRAY_UNIT = 10;
-	private final static boolean HAVE = false;
 	private final static boolean NOT_HAVE = true;
+	private final static boolean HAVE = false;
 	
 	private int length;
 	private Object[] array;	
 	
-	public ArrayToSet()
+	public ArrayToHashSet()
 	{
 		clear();
 	}
@@ -38,7 +40,7 @@ public class ArrayToSet
 			return true;
 		}
 		length++;		
-		if ((length != 1) && (length % ARRAY_UNIT == 1))
+		if ((length != 1)&&(length % ARRAY_UNIT == 1))
 		{
 			Object[] postArray = setNewArrayList();			
 			for (int i = 0; i < (length - 1); i++)
@@ -89,7 +91,7 @@ public class ArrayToSet
 					{
 						postArray[i] = array[i];
 					}
-					for (int i = index; i < length; i++)
+					for (int i = index; i<length; i++)
 					{
 						postArray[i] = array[i + 1];
 					}
@@ -97,7 +99,7 @@ public class ArrayToSet
 					return HAVE;
 				}
 
-				for (int i = index; i < (length - 2); i++)
+				for (int i = index; i<length - 2; i++)
 				{
 					array[i] = array[i + 1];
 				}
@@ -117,8 +119,7 @@ public class ArrayToSet
 			return postArray;			
 	}	
 	
-	public Iterator<Object> iterator()
-	{
+	public Iterator<Object> iterator() {
 		Iterator<Object> iterator = new Iteratorimpl<Object>(array, length);
 		return iterator;
 	}

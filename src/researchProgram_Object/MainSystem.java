@@ -14,6 +14,10 @@ public class MainSystem
 	public static final boolean PASS = true;
 	public static final boolean ERROR = false;
 	public static final int HAVE_NOT_TARGET = -1;
+	public static final boolean OFF = false;
+	public static final boolean ON = true;
+	public static final String BLANK = "";
+	
 	static Scanner scan;
 	
 	public MainSystem()
@@ -22,10 +26,13 @@ public class MainSystem
 	}
 	
 	public void mainSystem(Map<String,Research> researchDB, String mainPath)
-	{		
+	{	
+		boolean loopFlag = ON;
+		
 		System.out.println("=======================================");
 		System.out.println("설문조사 시스템 관리");
-		while(true)
+		
+		while (loopFlag == ON)
 		{
 			System.out.println("=======================================");
 			System.out.println("1. 설문조사 개요 등록하기");
@@ -35,12 +42,12 @@ public class MainSystem
 			System.out.println("5. 종료");
 			System.out.println("=======================================");
 			int select = selectInputSystem(1,5);
-			boolean exitFlag = distributeSevice(select,researchDB,mainPath);
-			if(exitFlag==YES)
+			loopFlag = distributeSevice(select,researchDB,mainPath);
+			if (loopFlag == NO)
 			{
 				System.out.println("정말 종료하시겠습니까?");
 				boolean answer = setAnswer();
-				if(answer==YES)
+				if (answer == YES)
 				{
 					return;
 				}
@@ -67,9 +74,12 @@ public class MainSystem
 			StartResearch research = new StartResearch();
 			research.runResearchSystem();
 			break;
-		case 5: return true;
+		case 5: return OFF;
+		default:
+			System.out.println("시스템 오류");
+			return OFF;
 		}
-		return false;
+		return ON;
 	}
 
 	
@@ -77,23 +87,24 @@ public class MainSystem
 	{
 		String selectNumString = null;
 		int selectNum = 0;
-		while(true)
+		boolean loopFlag = ON;
+		while (loopFlag == ON)
 		{
 			try
 			{
 				System.out.print(">");
 				selectNumString = scan.nextLine();
 				selectNum = Integer.parseInt(selectNumString);
-				if(selectNum<start||selectNum>end)
+				if (selectNum < start || selectNum > end)
 				{
 					System.out.println("잘못된 입력입니다.");
 				}
 				else
 				{
-					break;
+					loopFlag = OFF;
 				}
 			}
-			catch(NumberFormatException e)
+			catch (NumberFormatException e)
 			{
 				System.out.println("잘못된 입력입니다.");
 			}
@@ -103,23 +114,24 @@ public class MainSystem
 	
 	public static boolean setAnswer()
 	{
-		while(true)
+		while (true)
 		{
 			System.out.print("(y/n) > ");
 			String select = scan.nextLine();
-			if(select.length()>1)
+			if (select.length() > 1)
 			{
 				System.out.println("잘못된 입력입니다.");
 				continue;
 			}
+			
 			select = select.toLowerCase();
-			if(select.equals("y"))
+			if (select.equals("y"))
 			{
-				return true;
+				return YES;
 			}
-			else if(select.equals("n"))
+			else if (select.equals("n"))
 			{
-				return false;
+				return NO;
 			}
 			else
 			{
@@ -132,10 +144,10 @@ public class MainSystem
 	{	
 	List<String> titleList = new ArrayList<String>();
 	int titleNumber= 1;	
-	while(researchTitle.hasNext())
+	while (researchTitle.hasNext())
 	{			
 		String currenttitle = researchTitle.next();
-		System.out.println(titleNumber+"."+currenttitle);
+		System.out.println(titleNumber + "." + currenttitle);
 		titleList.add(currenttitle);
 		titleNumber++;
 	}
@@ -158,12 +170,12 @@ public class MainSystem
 	public static boolean wordChecker(String target, String banWord)
 	{
 		boolean blankCheck = banBlank(target);
-		if(blankCheck==ERROR)
+		if (blankCheck == ERROR)
 		{
 			return ERROR;
 		}
 		int result = target.indexOf(banWord);
-		if(result==HAVE_NOT_TARGET)
+		if (result == HAVE_NOT_TARGET)
 		{
 			return PASS;
 		}
@@ -173,7 +185,7 @@ public class MainSystem
 	
 	public static boolean banBlank(String word)
 	{
-		if(word.equals(""))
+		if (word.equals(BLANK))
 		{
 			System.out.println("빈칸이 입력되었습니다.");
 			return ERROR;

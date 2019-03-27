@@ -21,16 +21,16 @@ public class FileOpen
 			readFile = new File(readFath);
 			bReadFile = new BufferedReader(new FileReader(readFile));
 			String line = "";
-			while((line=bReadFile.readLine())!=null)	//모든줄이 입력되면 null이 반환된다.
+			while ((line = bReadFile.readLine()) != null)	//모든줄이 입력되면 null이 반환된다.
 			{
 				readDataList.add(line);
 			}
 		}
-		catch(FileNotFoundException e)
+		catch (FileNotFoundException e)
 		{
 			System.out.println("대상(파일)을 찾을 수가 없습니다.");
 		}
-		catch(IOException e)
+		catch (IOException e)
 		{
 			System.out.println("대상(파일)을 찾을 수가 없습니다.");
 		}
@@ -38,7 +38,7 @@ public class FileOpen
 		{
 			try
 			{
-				if(bReadFile!=null)bReadFile.close();
+				if (bReadFile != null) bReadFile.close();
 			}
 			catch(IOException e)
 			{
@@ -46,9 +46,5 @@ public class FileOpen
 			}
 		}
 		return readDataList;
-	}
-
-	
-	
-	
+	}	
 }

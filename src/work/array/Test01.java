@@ -71,12 +71,20 @@ public class Test01<E> {
 //		target.add(2);
 //		System.out.println(target.size());
 
-
-		Set<Integer> aa = new HashSet<Integer>();
-		boolean res = aa.add(1);
-		System.out.println(res);
-		res = aa.add(1);
-		System.out.println(res);
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("dd", "ddd");
+		map.put("ee", "eee");
+		Set<Map.Entry<String,String>> aa = map.entrySet();
+		for (Map.Entry<String, String> entry : aa)
+		{
+			
+		}
+		
+//		Set<Integer> aa = new HashSet<Integer>();
+//		boolean res = aa.add(1);
+//		System.out.println(res);
+//		res = aa.add(1);
+//		System.out.println(res);
 	}
 	
 	public E[] gee()

@@ -41,20 +41,20 @@ public class Research
 	
 	public void printListQA()
 	{
-		if(listQA.isEmpty())
+		if (listQA.isEmpty())
 		{
 			System.out.println("시스템 오류 : 질문과 답변의 데이터가 없습니다.");
 			return;
 		}
-		for(UnitQA unitQA : listQA)
+		for (UnitQA unitQA : listQA)
 		{
 			String question = unitQA.getQuestion();
 			System.out.println("질문 : "+question);
 			List<String> answer = unitQA.getAnswer();
 			int answerNumber = 1;
-			for(String unitAnswer : answer)
+			for (String unitAnswer : answer)
 			{
-				System.out.println("\t"+answerNumber+"."+unitAnswer);
+				System.out.println("\t" + answerNumber + "." + unitAnswer);
 				answerNumber++;
 			}
 		}
@@ -65,7 +65,7 @@ public class Research
 		int currentNumber = index+1;
 		UnitQA unitQA = listQA.get(index);
 		String question = unitQA.getQuestion();
-		System.out.println(currentNumber+"."+question);
+		System.out.println(currentNumber + "." + question);
 	}	
 	
 	

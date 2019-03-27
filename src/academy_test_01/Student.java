@@ -4,7 +4,6 @@ import java.util.List;
 
 public class Student
 {
-
 	String name;
 	int sumScore;
 	double avgScore;
@@ -48,43 +47,8 @@ public class Student
 	public int getSubjectNumber()
 	{
 		return scoreList.size();
-	}
-	
-	public int getSubjectOne()
-	{
-		return scoreList.get(0);
-	}
-	
-	public int getSubjectTwo()
-	{
-		return scoreList.get(1);
-	}
-	
-	public int getSubjectThree()
-	{
-		return scoreList.get(2);
-	}
-	
-	public int getSubjectFour()
-	{
-		return scoreList.get(3);
-	}
-	
-	public int getSubjectFive()
-	{
-		return scoreList.get(4);
-	}
-	
-	public int getSubjectSix()
-	{
-		return scoreList.get(5);
-	}
-	
-	public int getSubjectSeven()
-	{
-		return scoreList.get(6);
 	}	
-	
+
 	public double getAvgScore()
 	{
 		return avgScore;
@@ -95,4 +59,39 @@ public class Student
 		return sumScore;
 	}
 	
+//	public int getSubjectOne()
+//	{
+//		return scoreList.get(0);
+//	}
+//	
+//	public int getSubjectTwo()
+//	{
+//		return scoreList.get(1);
+//	}
+//	
+//	public int getSubjectThree()
+//	{
+//		return scoreList.get(2);
+//	}
+//	
+//	public int getSubjectFour()
+//	{
+//		return scoreList.get(3);
+//	}
+//	
+//	public int getSubjectFive()
+//	{
+//		return scoreList.get(4);
+//	}
+//	
+//	public int getSubjectSix()
+//	{
+//		return scoreList.get(5);
+//	}
+//	
+//	public int getSubjectSeven()
+//	{
+//		return scoreList.get(6);
+//	}	
+//	
 }
