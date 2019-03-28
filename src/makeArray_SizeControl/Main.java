@@ -8,8 +8,8 @@ import java.util.Set;
 public class Main {
 
 	
-	public static void main(String[] args) {
-		
+	public static void main(String[] args)
+	{
 //		ArrayToList list = new ArrayToList();		
 //		
 //		for(int i=0;i<50;i++)
@@ -102,8 +102,6 @@ public class Main {
 //		System.out.println(test.size());
 //		System.out.println(test.getArraySize());
 
-
-
 //		ArrayToSet target = new ArrayToSet();
 //		target.add(3);
 //		System.out.println("size : "+target.size());
@@ -133,7 +131,6 @@ public class Main {
 //		{
 //			System.out.println(bb.next());
 //		}		
-
 		
 		ArrayToMapB map = new ArrayToMapB();
 		System.out.println(map.isEmpty());
@@ -146,7 +143,6 @@ public class Main {
 		map.put("a", "e");
 		System.out.println(map.get("a"));
 		System.out.println(map.isEmpty());
-
 		
 		for (Map.Entry<Object, Object> entry : map.entrySet())
 		{
@@ -167,6 +163,12 @@ public class Main {
 		
 		Set<Object> key = map.keySet();
 		Collection<Object> value = map.value();
+		
+		System.out.println(map.containsKey(1));
+		map.remove(1);
+		System.out.println(map.containsKey(1));
+		
+		System.out.println(map.get(1));
 		
 		
 	}	

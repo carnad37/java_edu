@@ -41,7 +41,7 @@ public class ArrayToMapB
 			return pValue;
 		}
 		
-		for(int i=0; i<length; i++)
+		for (int i = 0; i < length; i++)
 		{
 			if (keySet[i].equals(pKey))
 			{
@@ -172,7 +172,7 @@ public class ArrayToMapB
 	public Collection<Object> value()
 	{
 		Collection<Object> collection = new HashSet<Object>();
-		for(Object value : valueList)
+		for (Object value : valueList)
 		{
 			collection.add(value);
 		}
@@ -211,7 +211,7 @@ public class ArrayToMapB
 			{
 				postArray[i] = preArray[i];
 			}
-			for (int i = index; i<length; i++)
+			for (int i = index; i < length; i++)
 			{
 				postArray[i] = preArray[i + 1];
 			}

@@ -15,7 +15,7 @@ public class ArrayToMapA
 	private int length;
 	
 	public ArrayToMapA()
-	{	
+	{
 		//인덱스로 찾기
 		clear();
 	}
@@ -32,7 +32,7 @@ public class ArrayToMapA
 		
 		Iterator<Object> keyIter = keySet.iterator();
 		int count = 0;
-		while(keyIter.hasNext())
+		while (keyIter.hasNext())
 		{
 			Object key = keyIter.next();
 			if (key.equals(pKey))
@@ -81,7 +81,7 @@ public class ArrayToMapA
 		Set<Map.Entry<Object, Object>> objSet = new HashSet<Map.Entry<Object, Object>>();
 		Iterator<Object> keyIter = keySet.iterator();
 		int count = 0;
-		while(keyIter.hasNext())
+		while (keyIter.hasNext())
 		{
 			Object key = keyIter.next();
 			Map.Entry<Object, Object> mapEntry = new MapEntryImpl<Object, Object>(key);
@@ -97,10 +97,10 @@ public class ArrayToMapA
 	{
 		Iterator<Object> keyIter = keySet.iterator();
 		int count = 0;
-		while(keyIter.hasNext())
+		while (keyIter.hasNext())
 		{
 			Object key = keyIter.next();
-			if(key.equals(pKey))
+			if (key.equals(pKey))
 			{
 				Object value = valueList.get(count);
 				return value;
@@ -141,10 +141,10 @@ public class ArrayToMapA
 	{
 		Iterator<Object> keyIter = keySet.iterator();
 		int count = 0;
-		while(keyIter.hasNext())
+		while (keyIter.hasNext())
 		{
 			Object key = keyIter.next();
-			if(key.equals(pKey))
+			if (key.equals(pKey))
 			{
 				keySet.remove(pKey);
 				Object value = valueList.get(count);

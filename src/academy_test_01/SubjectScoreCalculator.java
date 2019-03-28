@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 public class SubjectScoreCalculator
 {
@@ -23,7 +24,7 @@ public class SubjectScoreCalculator
 		String path = "D:\\HHS\\강의자료\\자바\\알고리즘\\00_실습\\";
 		String fileName = "subject_score.txt";
 		
-		List<Student> studentList = new ArrayList<Student>();
+		List<Student> studentList = new Vector<Student>();
 		boolean fileOpenErrorFlag = ssCal.fileOpen(studentList, path, fileName);				
 		if (fileOpenErrorFlag==ERROR)
 		{

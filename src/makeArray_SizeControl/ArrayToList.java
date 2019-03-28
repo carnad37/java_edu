@@ -65,7 +65,7 @@ public class ArrayToList
 			array = postArray;	
 			return;
 		}
-		for (int i = length - 1; i>=index; i--)
+		for (int i = length - 1; i >= index; i--)
 		{
 			array[i + 1] = array[i];
 		}
@@ -220,7 +220,7 @@ public class ArrayToList
 //					return HAVE;
 //				}
 								
-				for (int i = index; i<length - 2; i++)
+				for (int i = index; i < length - 2; i++)
 				{
 					array[i] = array[i + 1];
 				}
